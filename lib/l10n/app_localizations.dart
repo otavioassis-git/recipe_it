@@ -107,7 +107,7 @@ abstract class AppLocalizations {
   /// Home screen title
   ///
   /// In en, this message translates to:
-  /// **'Home'**
+  /// **'Recipes'**
   String get home;
 
   /// Favorites screen title

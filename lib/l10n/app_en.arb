@@ -4,7 +4,7 @@
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
-  "home": "Home",
+  "home": "Recipes",
   "@home": {
     "description": "Home screen title"
   },

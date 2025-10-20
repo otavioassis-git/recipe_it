@@ -12,7 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helloWorld => 'Hello World!';
 
   @override
-  String get home => 'Home';
+  String get home => 'Recipes';
 
   @override
   String get favorites => 'Favorites';

@@ -12,7 +12,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get helloWorld => 'Olá mundo!';
 
   @override
-  String get home => 'Home';
+  String get home => 'Receitas';
 
   @override
   String get favorites => 'Favoritas';
