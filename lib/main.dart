@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> {
   void _loadThemeMode() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? themeMode = prefs.getString('themeMode');
+
     if (themeMode != null) {
       themeModeNotifier.value = themeMode == 'System'
           ? ThemeMode.system
