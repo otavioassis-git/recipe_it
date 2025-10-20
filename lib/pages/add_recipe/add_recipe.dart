@@ -49,6 +49,7 @@ class _AddRecipeState extends State<AddRecipe> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final text = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -74,11 +75,13 @@ class _AddRecipeState extends State<AddRecipe> {
                 const SizedBox(height: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 8,
                   children: [
                     Text('Description'),
                     Card(
+                      margin: const EdgeInsets.all(0),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
                           controller: descriptionController,
                           maxLines: null,
@@ -110,10 +113,11 @@ class _AddRecipeState extends State<AddRecipe> {
                       ],
                     ),
                     Card(
+                      margin: const EdgeInsets.all(0),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(12.0),
                         child: Column(
-                          spacing: 8,
+                          spacing: 4,
                           children: [
                             for (
                               int i = 0;
@@ -125,6 +129,7 @@ class _AddRecipeState extends State<AddRecipe> {
                                   Expanded(
                                     child: TextFormField(
                                       controller: ingredientsControllers[i],
+                                      maxLines: null,
                                     ),
                                   ),
                                   if (ingredientsControllers.length > 1)
@@ -161,17 +166,24 @@ class _AddRecipeState extends State<AddRecipe> {
                       ],
                     ),
                     Card(
+                      margin: const EdgeInsets.all(0),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(12.0),
                         child: Column(
-                          spacing: 8,
+                          spacing: 4,
                           children: [
                             for (int i = 0; i < stepsControllers.length; i++)
                               Row(
                                 children: [
+                                  Text(
+                                    '${i + 1}.',
+                                    style: theme.textTheme.titleMedium,
+                                  ),
+                                  const SizedBox(width: 8),
                                   Expanded(
                                     child: TextFormField(
                                       controller: stepsControllers[i],
+                                      maxLines: null,
                                     ),
                                   ),
                                   if (stepsControllers.length > 1)

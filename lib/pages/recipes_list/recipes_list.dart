@@ -19,6 +19,8 @@ class _RecipesListState extends State<RecipesList> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return FutureBuilder(
       future: databaseService.getAllCategorylessRecipes(),
       builder: (context, snapshot) {
@@ -28,14 +30,38 @@ class _RecipesListState extends State<RecipesList> {
             itemCount: recipes.length,
             itemBuilder: (context, index) {
               return Card(
+                margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 4,
                     children: [
-                      Text(recipes[index].name),
-                      Text(recipes[index].description),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 4,
+                          children: [
+                            Text(
+                              recipes[index].name,
+                              style: theme.textTheme.titleMedium,
+                            ),
+                            Text(
+                              recipes[index].description,
+                              style: theme.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: IconButton(
+                          onPressed: () {},
+                          iconSize: 18,
+                          padding: EdgeInsets.all(0),
+                          icon: const Icon(Icons.more_vert),
+                        ),
+                      ),
                     ],
                   ),
                 ),
