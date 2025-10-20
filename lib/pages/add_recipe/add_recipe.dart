@@ -13,6 +13,7 @@ class AddRecipe extends StatefulWidget {
 class _AddRecipeState extends State<AddRecipe> {
   final DatabaseService databaseService = DatabaseService.instance;
   late TextEditingController nameController;
+  late TextEditingController descriptionController;
   final List<TextEditingController> ingredientsControllers = [];
   final List<TextEditingController> stepsControllers = [];
 
@@ -30,12 +31,14 @@ class _AddRecipeState extends State<AddRecipe> {
 
   void _initControllers() {
     nameController = TextEditingController();
+    descriptionController = TextEditingController();
     ingredientsControllers.add(TextEditingController());
     stepsControllers.add(TextEditingController());
   }
 
   void _disposeControllers() {
     nameController.dispose();
+    descriptionController.dispose();
     for (final controller in ingredientsControllers) {
       controller.dispose();
     }
@@ -67,6 +70,25 @@ class _AddRecipeState extends State<AddRecipe> {
                     hintText: 'Recipe name',
                     border: OutlineInputBorder(),
                   ),
+                ),
+                const SizedBox(height: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Description'),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: descriptionController,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                            hintText: 'Tell a little bit about the recipe...',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 Column(
@@ -185,6 +207,7 @@ class _AddRecipeState extends State<AddRecipe> {
 
   void _createRecipe() {
     final name = nameController.text;
+    final description = descriptionController.text;
     final ingredients = ingredientsControllers
         .map((e) => e.text)
         .toList()
@@ -206,6 +229,23 @@ class _AddRecipeState extends State<AddRecipe> {
               Icon(Icons.error),
               SizedBox(width: 4),
               Text('Name cannot be empty'),
+            ],
+          ),
+        ),
+      );
+      return;
+    }
+
+    if (description.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+          content: Row(
+            children: [
+              Icon(Icons.error),
+              SizedBox(width: 4),
+              Text('Description cannot be empty'),
             ],
           ),
         ),
@@ -250,6 +290,7 @@ class _AddRecipeState extends State<AddRecipe> {
     databaseService.insertRecipe(
       Recipe(
         name: name,
+        description: description,
         ingredients: ingredients.join(';'),
         steps: steps.join(';'),
       ),

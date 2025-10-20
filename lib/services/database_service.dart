@@ -80,10 +80,7 @@ class DatabaseService {
 
   Future<List<Recipe>> getAllCategorylessRecipes() async {
     final Database db = await database;
-    final List<Map<String, dynamic>> recipes = await db.query(
-      _recipesTable,
-      where: '$_recipesCategoryId = NULL',
-    );
+    final List<Map<String, dynamic>> recipes = await db.query(_recipesTable);
     return recipes.map((e) => Recipe.fromMap(e)).toList();
   }
 
