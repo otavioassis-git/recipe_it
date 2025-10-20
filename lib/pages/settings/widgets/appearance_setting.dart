@@ -34,77 +34,17 @@ class AppearanceSetting extends StatelessWidget {
                   child: Row(
                     spacing: 4,
                     children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            themeModeNotifier.value = ThemeMode.system;
-                          },
-                          style: TextButton.styleFrom(
-                            backgroundColor: themeMode == ThemeMode.system
-                                ? colorScheme.inversePrimary
-                                : colorScheme.surface,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          ),
-                          child: Text(
-                            "System",
-                            style: TextStyle(
-                              color: themeMode == ThemeMode.system
-                                  ? Colors.white
-                                  : colorScheme.onSurface,
-                            ),
-                          ),
-                        ),
+                      CustomSelectButton(
+                        selectedThemeMode: themeMode,
+                        label: "System",
                       ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            themeModeNotifier.value = ThemeMode.dark;
-                          },
-                          style: TextButton.styleFrom(
-                            backgroundColor: themeMode == ThemeMode.dark
-                                ? colorScheme.inversePrimary
-                                : colorScheme.surface,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          ),
-                          child: Text(
-                            "Dark",
-                            style: TextStyle(
-                              color: themeMode == ThemeMode.dark
-                                  ? Colors.white
-                                  : colorScheme.onSurface,
-                            ),
-                          ),
-                        ),
+                      CustomSelectButton(
+                        selectedThemeMode: themeMode,
+                        label: "Dark",
                       ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            themeModeNotifier.value = ThemeMode.light;
-                          },
-                          style: TextButton.styleFrom(
-                            backgroundColor: themeMode == ThemeMode.light
-                                ? colorScheme.inversePrimary
-                                : colorScheme.surface,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          ),
-                          child: Text(
-                            "Light",
-                            style: TextStyle(
-                              color: themeMode == ThemeMode.light
-                                  ? Colors.white
-                                  : colorScheme.onSurface,
-                            ),
-                          ),
-                        ),
+                      CustomSelectButton(
+                        selectedThemeMode: themeMode,
+                        label: "Light",
                       ),
                     ],
                   ),
@@ -114,6 +54,49 @@ class AppearanceSetting extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class CustomSelectButton extends StatelessWidget {
+  const CustomSelectButton({
+    super.key,
+    required this.selectedThemeMode,
+    required this.label,
+  });
+
+  final ThemeMode selectedThemeMode;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    final themeModeLabelMap = {
+      "System": ThemeMode.system,
+      "Dark": ThemeMode.dark,
+      "Light": ThemeMode.light,
+    };
+
+    return Expanded(
+      child: TextButton(
+        onPressed: () => themeModeNotifier.value = themeModeLabelMap[label],
+        style: TextButton.styleFrom(
+          backgroundColor: selectedThemeMode == themeModeLabelMap[label]
+              ? colorScheme.inversePrimary
+              : colorScheme.surface,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: selectedThemeMode == themeModeLabelMap[label]
+                ? Colors.white
+                : colorScheme.onSurface,
+          ),
+        ),
+      ),
     );
   }
 }

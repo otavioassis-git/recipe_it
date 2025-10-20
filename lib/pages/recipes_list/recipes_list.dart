@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class ArchivesList extends StatelessWidget {
-  const ArchivesList({super.key});
+class RecipesList extends StatelessWidget {
+  const RecipesList({super.key});
 
   @override
   Widget build(BuildContext context) {

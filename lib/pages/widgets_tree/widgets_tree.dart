@@ -1,5 +1,5 @@
 import 'package:recipe_it/data/notifiers.dart';
-import 'package:recipe_it/pages/recipes/recipes.dart';
+import 'package:recipe_it/pages/recipes_list/recipes_list.dart';
 import 'package:flutter/material.dart';
 
 class WidgetsTree extends StatelessWidget {
@@ -8,7 +8,7 @@ class WidgetsTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> children = [
-      const ArchivesList(),
+      const RecipesList(),
       const Text("Favorites"),
     ];
 
