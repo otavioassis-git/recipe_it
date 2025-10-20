@@ -1,5 +1,5 @@
 class Recipe {
-  final int id;
+  final int? id;
   final String name;
   final String description;
   final String image;
@@ -14,19 +14,19 @@ class Recipe {
   final int categoryId;
 
   Recipe({
-    required this.id,
+    this.id,
     required this.name,
     this.description = '',
     this.image = '',
-    required this.ingredients,
-    required this.steps,
-    required this.prepTime,
-    required this.cookTime,
-    required this.totalTime,
-    required this.difficulty,
-    required this.rating,
-    required this.isFavorite,
-    required this.categoryId,
+    this.ingredients = '',
+    this.steps = '',
+    this.prepTime = 0,
+    this.cookTime = 0,
+    this.totalTime = 0,
+    this.difficulty = '',
+    this.rating = 0,
+    this.isFavorite = false,
+    this.categoryId = 0,
   });
 
   Map<String, dynamic> toMap() {

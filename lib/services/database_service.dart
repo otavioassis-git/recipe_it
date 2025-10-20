@@ -39,10 +39,11 @@ class DatabaseService {
 
     return await openDatabase(
       databasePath,
+      version: 1,
       onCreate: (db, version) {
         db.execute('''
         CREATE TABLE $_recipesTable (
-          $_recipesId INTEGER PRIMARY KEY,
+          $_recipesId INTEGER PRIMARY KEY AUTOINCREMENT,
           $_recipesName TEXT NOT NULL,
           $_recipesDescription TEXT,
           $_recipesImage TEXT,
@@ -59,7 +60,7 @@ class DatabaseService {
             ON DELETE NO ACTION ON UPDATE NO ACTION
         );
         CREATE TABLE $_categoriesTable (
-          $_categoriesId INTEGER PRIMARY KEY,
+          $_categoriesId INTEGER PRIMARY KEY AUTOINCREMENT,
           $_categoriesName TEXT NOT NULL
         );
       ''');
