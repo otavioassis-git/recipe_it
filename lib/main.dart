@@ -1,6 +1,7 @@
 import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/pages/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,10 +21,35 @@ final ThemeData darkTheme = ThemeData(
   ),
 );
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  @override
+  void initState() {
+    super.initState();
+    _loadThemeMode();
+  }
+
+  void _loadThemeMode() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? themeMode = prefs.getString('themeMode');
+    if (themeMode != null) {
+      themeModeNotifier.value = themeMode == 'System'
+          ? ThemeMode.system
+          : themeMode == 'Dark'
+          ? ThemeMode.dark
+          : ThemeMode.light;
+    } else {
+      themeModeNotifier.value = ThemeMode.system;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(

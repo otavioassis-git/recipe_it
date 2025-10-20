@@ -1,5 +1,6 @@
 import 'package:recipe_it/data/notifiers.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppearanceSetting extends StatelessWidget {
   const AppearanceSetting({super.key});
@@ -15,8 +16,11 @@ class AppearanceSetting extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Appearance', style: theme.textTheme.bodySmall),
-            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: Text('Appearance', style: theme.textTheme.bodySmall),
+            ),
+            const SizedBox(height: 4),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
@@ -80,7 +84,11 @@ class CustomSelectButton extends StatelessWidget {
 
     return Expanded(
       child: TextButton(
-        onPressed: () => themeModeNotifier.value = themeModeLabelMap[label],
+        onPressed: () async {
+          themeModeNotifier.value = themeModeLabelMap[label];
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('themeMode', label);
+        },
         style: TextButton.styleFrom(
           backgroundColor: selectedThemeMode == themeModeLabelMap[label]
               ? colorScheme.inversePrimary

@@ -19,7 +19,7 @@ class Settings extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [AppearanceSetting(), const SizedBox(height: 16)],
+            children: [AppearanceSetting()],
           ),
         ),
       ),
