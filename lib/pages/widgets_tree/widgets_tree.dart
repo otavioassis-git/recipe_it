@@ -7,17 +7,19 @@ class WidgetsTree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> children = [
-      const RecipesList(),
-      const Text("Favorites"),
-    ];
-
     return ValueListenableBuilder(
       valueListenable: currentPageNotifier,
       builder: (context, currentPage, child) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 18),
-          child: children[currentPage],
+          child: AnimatedCrossFade(
+            firstChild: RecipesList(),
+            secondChild: Text('Favorites'),
+            crossFadeState: currentPage == 0
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+            duration: Duration(milliseconds: 150),
+          ),
         );
       },
     );

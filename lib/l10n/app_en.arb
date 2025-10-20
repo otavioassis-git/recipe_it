@@ -1,0 +1,43 @@
+{
+  "@@locale": "en",
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Home screen title"
+  },
+  "favorites": "Favorites",
+  "@favorites": {
+    "description": "Favorites screen title"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings screen title"
+  },
+  "appearance": "Appearance",
+  "@appearance": {
+    "description": "Appearance settings title"
+  },
+  "system": "System",
+  "@system": {
+    "description": "System theme"
+  },
+  "dark": "Dark",
+  "@dark": {
+    "description": "Dark theme"
+  },
+  "light": "Light",
+  "@light": {
+    "description": "Light theme"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Search screen title"
+  },
+  "add_new": "Add recipe",
+  "@add_new": {
+    "description": "Add new screen title"
+  }
+}

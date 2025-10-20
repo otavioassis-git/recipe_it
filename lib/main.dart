@@ -1,7 +1,9 @@
 import 'package:recipe_it/data/notifiers.dart';
+import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/pages/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,9 +43,9 @@ class _MyAppState extends State<MyApp> {
     final String? themeMode = prefs.getString('themeMode');
 
     if (themeMode != null) {
-      themeModeNotifier.value = themeMode == 'System'
+      themeModeNotifier.value = themeMode == 'ThemeMode.system'
           ? ThemeMode.system
-          : themeMode == 'Dark'
+          : themeMode == 'ThemeMode.dark'
           ? ThemeMode.dark
           : ThemeMode.light;
     } else {
@@ -57,10 +59,22 @@ class _MyAppState extends State<MyApp> {
       valueListenable: themeModeNotifier,
       builder: (context, themeMode, child) {
         return MaterialApp(
+          title: "Recipe It",
           debugShowCheckedModeBanner: false,
           themeMode: themeMode,
           theme: lightTheme,
           darkTheme: darkTheme,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            ...AppLocalizations.supportedLocales,
+            Locale('en'), // English
+            Locale('pt_BR'), // Portuguese
+          ],
           home: const Home(),
         );
       },

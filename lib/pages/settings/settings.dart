@@ -1,3 +1,4 @@
+import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/pages/settings/widgets/appearance_setting.dart';
 import 'package:flutter/material.dart';
 
@@ -6,10 +7,12 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Settings',
+        title: Text(
+          text.settings,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

@@ -1,0 +1,16 @@
+{
+  "@@locale": "pt",
+  "helloWorld": "Olá mundo!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "home": "Home",
+  "favorites": "Favoritas",
+  "settings": "Configurações",
+  "appearance": "Aparência",
+  "system": "Sistema",
+  "dark": "Escuro",
+  "light": "Claro",
+  "search": "Pesquisar",
+  "add_new": "Adicionar receita"
+}
