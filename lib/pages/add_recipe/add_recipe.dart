@@ -64,10 +64,10 @@ class _AddRecipeState extends State<AddRecipe> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
+              spacing: 4,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 NameSection(nameController: nameController),
-                const SizedBox(height: 16),
                 DescriptionSection(
                   descriptionController: descriptionController,
                 ),
