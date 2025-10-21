@@ -42,28 +42,30 @@ class DatabaseService {
       version: 1,
       onCreate: (db, version) {
         db.execute('''
-        CREATE TABLE $_recipesTable (
-          $_recipesId INTEGER PRIMARY KEY AUTOINCREMENT,
-          $_recipesName TEXT NOT NULL,
-          $_recipesDescription TEXT,
-          $_recipesImage TEXT,
-          $_recipesIngredients TEXT NOT NULL,
-          $_recipesSteps TEXT NOT NULL,
-          $_recipesPrepTime INTEGER,
-          $_recipesCookTime INTEGER,
-          $_recipesTotalTime INTEGER,
-          $_recipesDifficulty TEXT,
-          $_recipesRating INTEGER,
-          $_recipesIsFavorite INTEGER,
-          $_recipesCategoryId INTEGER,
-          FOREIGN KEY($_recipesCategoryId) REFERENCES $_categoriesTable($_categoriesId)
-            ON DELETE NO ACTION ON UPDATE NO ACTION
-        );
-        CREATE TABLE $_categoriesTable (
-          $_categoriesId INTEGER PRIMARY KEY AUTOINCREMENT,
-          $_categoriesName TEXT NOT NULL
-        );
-      ''');
+          CREATE TABLE $_categoriesTable (
+            $_categoriesId INTEGER PRIMARY KEY AUTOINCREMENT,
+            $_categoriesName TEXT NOT NULL
+          );
+        ''');
+        db.execute('''
+          CREATE TABLE $_recipesTable (
+            $_recipesId INTEGER PRIMARY KEY AUTOINCREMENT,
+            $_recipesName TEXT NOT NULL,
+            $_recipesDescription TEXT,
+            $_recipesImage TEXT,
+            $_recipesIngredients TEXT NOT NULL,
+            $_recipesSteps TEXT NOT NULL,
+            $_recipesPrepTime INTEGER,
+            $_recipesCookTime INTEGER,
+            $_recipesTotalTime INTEGER,
+            $_recipesDifficulty TEXT,
+            $_recipesRating INTEGER,
+            $_recipesIsFavorite INTEGER,
+            $_recipesCategoryId INTEGER,
+            FOREIGN KEY($_recipesCategoryId) REFERENCES $_categoriesTable($_categoriesId)
+              ON DELETE NO ACTION ON UPDATE NO ACTION
+          );
+        ''');
       },
     );
   }
@@ -80,7 +82,11 @@ class DatabaseService {
 
   Future<List<Recipe>> getAllCategorylessRecipes() async {
     final Database db = await database;
-    final List<Map<String, dynamic>> recipes = await db.query(_recipesTable);
+    final List<Map<String, dynamic>> recipes = await db.query(
+      _recipesTable,
+      where: '$_recipesCategoryId IS NULL',
+      orderBy: _recipesName,
+    );
     return recipes.map((e) => Recipe.fromMap(e)).toList();
   }
 
@@ -88,8 +94,9 @@ class DatabaseService {
     final Database db = await database;
     final List<Map<String, dynamic>> categories = await db.query(
       _categoriesTable,
+      orderBy: _categoriesName,
     );
-
+    print(categories);
     return categories.map((e) => Category.fromMap(e)).toList();
   }
 }
