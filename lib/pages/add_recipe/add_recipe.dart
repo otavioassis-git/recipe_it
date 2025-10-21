@@ -49,7 +49,6 @@ class _AddRecipeState extends State<AddRecipe> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final text = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -73,136 +72,14 @@ class _AddRecipeState extends State<AddRecipe> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 8,
-                  children: [
-                    Text('Description'),
-                    Card(
-                      margin: const EdgeInsets.all(0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: TextFormField(
-                          controller: descriptionController,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                            hintText: 'Tell a little bit about the recipe...',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                DescriptionSection(
+                  descriptionController: descriptionController,
                 ),
                 const SizedBox(height: 16),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Ingredients'),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              ingredientsControllers.add(
-                                TextEditingController(),
-                              );
-                            });
-                          },
-                          icon: Icon(Icons.add),
-                        ),
-                      ],
-                    ),
-                    Card(
-                      margin: const EdgeInsets.all(0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          spacing: 4,
-                          children: [
-                            for (
-                              int i = 0;
-                              i < ingredientsControllers.length;
-                              i++
-                            )
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: ingredientsControllers[i],
-                                      maxLines: null,
-                                    ),
-                                  ),
-                                  if (ingredientsControllers.length > 1)
-                                    IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          ingredientsControllers.removeAt(i);
-                                        });
-                                      },
-                                      icon: Icon(Icons.delete),
-                                    ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                IngredientsSection(
+                  ingredientsControllers: ingredientsControllers,
                 ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Steps'),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              stepsControllers.add(TextEditingController());
-                            });
-                          },
-                          icon: Icon(Icons.add),
-                        ),
-                      ],
-                    ),
-                    Card(
-                      margin: const EdgeInsets.all(0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          spacing: 4,
-                          children: [
-                            for (int i = 0; i < stepsControllers.length; i++)
-                              Row(
-                                children: [
-                                  Text(
-                                    '${i + 1}.',
-                                    style: theme.textTheme.titleMedium,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: stepsControllers[i],
-                                      maxLines: null,
-                                    ),
-                                  ),
-                                  if (stepsControllers.length > 1)
-                                    IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          stepsControllers.removeAt(i);
-                                        });
-                                      },
-                                      icon: Icon(Icons.delete),
-                                    ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                StepsSection(stepsControllers: stepsControllers),
               ],
             ),
           ),
@@ -309,5 +186,167 @@ class _AddRecipeState extends State<AddRecipe> {
     );
 
     Navigator.pop(context);
+  }
+}
+
+class DescriptionSection extends StatelessWidget {
+  const DescriptionSection({super.key, required this.descriptionController});
+
+  final TextEditingController descriptionController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
+      children: [
+        Text('Description'),
+        Card(
+          margin: const EdgeInsets.all(0),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextFormField(
+              controller: descriptionController,
+              maxLines: null,
+              decoration: InputDecoration(
+                hintText: 'Tell a little bit about the recipe...',
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class IngredientsSection extends StatefulWidget {
+  const IngredientsSection({super.key, required this.ingredientsControllers});
+
+  final List<TextEditingController> ingredientsControllers;
+
+  @override
+  State<IngredientsSection> createState() => _IngredientsSectionState();
+}
+
+class _IngredientsSectionState extends State<IngredientsSection> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Ingredients'),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  widget.ingredientsControllers.add(TextEditingController());
+                });
+              },
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+        Card(
+          margin: const EdgeInsets.all(0),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              spacing: 4,
+              children: [
+                for (int i = 0; i < widget.ingredientsControllers.length; i++)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: widget.ingredientsControllers[i],
+                          maxLines: null,
+                        ),
+                      ),
+                      if (widget.ingredientsControllers.length > 1)
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              widget.ingredientsControllers.removeAt(i);
+                            });
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class StepsSection extends StatefulWidget {
+  const StepsSection({super.key, required this.stepsControllers});
+
+  final List<TextEditingController> stepsControllers;
+
+  @override
+  State<StepsSection> createState() => _StepsSectionState();
+}
+
+class _StepsSectionState extends State<StepsSection> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Steps'),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  widget.stepsControllers.add(TextEditingController());
+                });
+              },
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+        Card(
+          margin: const EdgeInsets.all(0),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              spacing: 4,
+              children: [
+                for (int i = 0; i < widget.stepsControllers.length; i++)
+                  Row(
+                    children: [
+                      Text('${i + 1}.', style: theme.textTheme.titleMedium),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: TextFormField(
+                          controller: widget.stepsControllers[i],
+                          maxLines: null,
+                        ),
+                      ),
+                      if (widget.stepsControllers.length > 1)
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              widget.stepsControllers.removeAt(i);
+                            });
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
