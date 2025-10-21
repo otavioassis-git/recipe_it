@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
+import 'package:recipe_it/models/category_model.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/services/database_service.dart';
 
@@ -16,6 +17,7 @@ class _AddRecipeState extends State<AddRecipe> {
   late TextEditingController descriptionController;
   final List<TextEditingController> ingredientsControllers = [];
   final List<TextEditingController> stepsControllers = [];
+  final List<int?> categoryIds = [];
 
   @override
   void initState() {
@@ -64,22 +66,17 @@ class _AddRecipeState extends State<AddRecipe> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    hintText: 'Recipe name',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+                NameSection(nameController: nameController),
                 const SizedBox(height: 16),
                 DescriptionSection(
                   descriptionController: descriptionController,
                 ),
-                const SizedBox(height: 16),
+                CategorySection(categoryIds: categoryIds),
                 IngredientsSection(
                   ingredientsControllers: ingredientsControllers,
                 ),
                 StepsSection(stepsControllers: stepsControllers),
+                SizedBox(height: 16),
               ],
             ),
           ),
@@ -189,6 +186,23 @@ class _AddRecipeState extends State<AddRecipe> {
   }
 }
 
+class NameSection extends StatelessWidget {
+  const NameSection({super.key, required this.nameController});
+
+  final TextEditingController nameController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: nameController,
+      decoration: InputDecoration(
+        hintText: 'Recipe name',
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
+}
+
 class DescriptionSection extends StatelessWidget {
   const DescriptionSection({super.key, required this.descriptionController});
 
@@ -211,6 +225,68 @@ class DescriptionSection extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Tell a little bit about the recipe...',
               ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CategorySection extends StatefulWidget {
+  const CategorySection({super.key, required this.categoryIds});
+
+  final List<int?> categoryIds;
+
+  @override
+  State<CategorySection> createState() => CategorySectionState();
+}
+
+class CategorySectionState extends State<CategorySection> {
+  final DatabaseService databaseService = DatabaseService.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Category'),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+          ],
+        ),
+        Card(
+          margin: const EdgeInsets.all(0),
+          child: Padding(
+            padding: EdgeInsets.all(12.0),
+            child: FutureBuilder(
+              future: databaseService.getAllCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  final categories = snapshot.data as List<Category>;
+
+                  return DropdownButton(
+                    items: categories.map((e) {
+                      return DropdownMenuItem(value: e.id, child: Text(e.name));
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        if (widget.categoryIds.isNotEmpty) {
+                          widget.categoryIds.clear();
+                        }
+                        widget.categoryIds.add(value);
+                      });
+                    },
+                  );
+                } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                  return SizedBox(
+                    width: double.infinity,
+                    child: Text('No categories registered'),
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
             ),
           ),
         ),
@@ -260,7 +336,6 @@ class _IngredientsSectionState extends State<IngredientsSection> {
                       Expanded(
                         child: TextFormField(
                           controller: widget.ingredientsControllers[i],
-                          maxLines: null,
                         ),
                       ),
                       if (widget.ingredientsControllers.length > 1)
@@ -293,6 +368,35 @@ class StepsSection extends StatefulWidget {
 }
 
 class _StepsSectionState extends State<StepsSection> {
+  final List<FocusNode> focusNodes = [];
+  final List<bool> isFocused = [];
+  bool isKeyboardUp = false;
+
+  @override
+  void initState() {
+    focusNodes.add(FocusNode());
+    isFocused.add(false);
+    focusNodes[0].addListener(() => _onFocusChange(0));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (int i = 0; i < focusNodes.length; i++) {
+      focusNodes[i].removeListener(() => _onFocusChange(i));
+      focusNodes[i].dispose();
+    }
+    super.dispose();
+  }
+
+  void _onFocusChange(int index) {
+    setState(() {
+      isFocused[index] = focusNodes[index].hasFocus;
+      isKeyboardUp = isFocused.any((e) => e);
+      print('changing focus on $index: $isKeyboardUp');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -307,6 +411,11 @@ class _StepsSectionState extends State<StepsSection> {
               onPressed: () {
                 setState(() {
                   widget.stepsControllers.add(TextEditingController());
+                  focusNodes.add(FocusNode());
+                  isFocused.add(false);
+                  focusNodes[focusNodes.length - 1].addListener(
+                    () => _onFocusChange(focusNodes.length - 1),
+                  );
                 });
               },
               icon: Icon(Icons.add),
@@ -327,18 +436,29 @@ class _StepsSectionState extends State<StepsSection> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: TextFormField(
+                          focusNode: focusNodes[i],
                           controller: widget.stepsControllers[i],
                           maxLines: null,
                         ),
                       ),
-                      if (widget.stepsControllers.length > 1)
+                      if (widget.stepsControllers.length > 1 || isKeyboardUp)
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              widget.stepsControllers.removeAt(i);
+                              if (isFocused[i]) {
+                                focusNodes[i].unfocus();
+                              } else {
+                                widget.stepsControllers.removeAt(i);
+                                focusNodes[i].removeListener(
+                                  () => _onFocusChange(i),
+                                );
+                                focusNodes[i].dispose();
+                                focusNodes.removeAt(i);
+                                isFocused.removeAt(i);
+                              }
                             });
                           },
-                          icon: Icon(Icons.delete),
+                          icon: Icon(isFocused[i] ? Icons.check : Icons.delete),
                         ),
                     ],
                   ),

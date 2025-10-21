@@ -24,7 +24,7 @@ class _RecipesListState extends State<RecipesList> {
     return FutureBuilder(
       future: databaseService.getAllCategorylessRecipes(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           final recipes = snapshot.data as List<Recipe>;
           return ListView.builder(
             itemCount: recipes.length,
@@ -68,6 +68,8 @@ class _RecipesListState extends State<RecipesList> {
               );
             },
           );
+        } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+          return const Center(child: Text('No recipes found'));
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
