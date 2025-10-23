@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/models/category_recipe_model.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/services/database_service.dart';
@@ -18,20 +19,25 @@ class _RecipesListState extends State<RecipesList> {
   @override
   void initState() {
     super.initState();
+    updateRecipesListNotifier.value = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: FutureBuilder(
+    return ValueListenableBuilder(
+      valueListenable: updateRecipesListNotifier,
+      builder: (context, value, child) => FutureBuilder(
         future: databaseService.getAllUncategorizedRecipes(),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            final [uncategorized, ...categories] =
-                snapshot.data as List<CategoryRecipe>;
-            final uncategorizedRecipes = uncategorized.recipes.map((recipe) {
-              return RecipeCard(recipe: recipe);
-            });
+            final categories = snapshot.data as List<CategoryRecipe>;
+            List<Widget> uncategorizedRecipes = [];
+            if (categories[0].categoryId == null) {
+              uncategorizedRecipes = categories[0].recipes.map((recipe) {
+                return RecipeCard(recipe: recipe);
+              }).toList();
+              categories.removeAt(0);
+            }
             if (panelExpansionControl.isEmpty) {
               panelExpansionControl.addAll(
                 List.filled(categories.length, true, growable: false),
@@ -54,30 +60,30 @@ class _RecipesListState extends State<RecipesList> {
                 ),
               );
             });
-            return Column(
-              spacing: 8,
-              children: [
-                ...uncategorizedRecipes,
-                ExpansionPanelList(
-                  elevation: 0,
-                  expansionCallback: (panelIndex, isExpanded) {
-                    setState(() {
-                      panelExpansionControl[panelIndex] = isExpanded;
-                      print(panelExpansionControl);
-                    });
-                  },
-                  children: [...categorizedRecipes],
-                ),
-                const SizedBox(height: 16),
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                spacing: 8,
+                children: [
+                  ...uncategorizedRecipes,
+                  ExpansionPanelList(
+                    elevation: 0,
+                    expansionCallback: (panelIndex, isExpanded) {
+                      setState(() {
+                        panelExpansionControl[panelIndex] = isExpanded;
+                      });
+                    },
+                    children: [...categorizedRecipes],
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
             );
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
             return const Center(child: Text('No recipes found'));
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
-          } else {
-            return const Center(child: CircularProgressIndicator());
           }
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

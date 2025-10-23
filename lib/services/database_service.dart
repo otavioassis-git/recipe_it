@@ -88,7 +88,7 @@ class DatabaseService {
       FROM $_recipesTable AS r
       LEFT OUTER JOIN $_categoriesTable AS c
         ON r.$_recipesCategoryId = c.$_categoriesId
-      ORDER BY $_recipesName;
+      ORDER BY categoryName;
     ''');
 
     final List<CategoryRecipe> categories = [];
@@ -117,7 +117,6 @@ class DatabaseService {
       _categoriesTable,
       orderBy: _categoriesName,
     );
-    print(categories);
     return categories.map((e) => Category.fromMap(e)).toList();
   }
 }
