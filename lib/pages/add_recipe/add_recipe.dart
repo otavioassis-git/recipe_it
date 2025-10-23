@@ -185,7 +185,7 @@ class _AddRecipeState extends State<AddRecipe> {
     );
 
     Navigator.pop(context);
-    updateRecipesListNotifier.value = true;
+    updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
   }
 }
 

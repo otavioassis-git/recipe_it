@@ -17,12 +17,6 @@ class _RecipesListState extends State<RecipesList> {
   final List<bool> panelExpansionControl = [];
 
   @override
-  void initState() {
-    super.initState();
-    updateRecipesListNotifier.value = false;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: updateRecipesListNotifier,
