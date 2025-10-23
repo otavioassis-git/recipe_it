@@ -179,10 +179,12 @@ class _AddRecipeState extends State<AddRecipe> {
         description: description,
         ingredients: ingredients.join(';'),
         steps: steps.join(';'),
+        categoryId: categoryIds.isNotEmpty ? categoryIds[0] : null,
       ),
     );
 
     Navigator.pop(context);
+    setState(() {});
   }
 }
 
@@ -283,16 +285,127 @@ class CategorySection extends StatefulWidget {
 
 class CategorySectionState extends State<CategorySection> {
   final DatabaseService databaseService = DatabaseService.instance;
+  late TextEditingController nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Category'),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+            Row(
+              spacing: 8,
+              children: [
+                Text('Category'),
+                SizedBox(
+                  height: 16,
+                  width: 16,
+                  child: IconButton(
+                    iconSize: 18,
+                    padding: EdgeInsets.all(0),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 16,
+                            children: [
+                              Text(
+                                'Info',
+                                style: theme.textTheme.headlineSmall,
+                              ),
+                              Text(
+                                'If you don\'t add a category, the recipe will be added to the "Uncategorized" category.',
+                              ),
+                              Text('You can add a category later.'),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Close'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    icon: Icon(Icons.info_outline),
+                  ),
+                ),
+              ],
+            ),
+            IconButton(
+              onPressed: () => showDialog(
+                context: context,
+                builder: (context) => Dialog(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 16,
+                      children: [
+                        Text(
+                          'Add a category',
+                          style: theme.textTheme.headlineSmall,
+                        ),
+                        TextField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                            hintText: 'Category name',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          spacing: 8,
+                          children: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('Cancel'),
+                            ),
+                            FilledButton(
+                              onPressed: () {
+                                databaseService.insertCategory(
+                                  Category(name: nameController.text),
+                                );
+                                Navigator.pop(context);
+                                setState(() {});
+                              },
+                              child: Text('Add'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              icon: const Icon(Icons.add),
+            ),
           ],
         ),
         Card(
@@ -304,11 +417,20 @@ class CategorySectionState extends State<CategorySection> {
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                   final categories = snapshot.data as List<Category>;
-
                   return DropdownButton(
-                    items: categories.map((e) {
-                      return DropdownMenuItem(value: e.id, child: Text(e.name));
-                    }).toList(),
+                    isExpanded: true,
+                    value: widget.categoryIds.isNotEmpty
+                        ? widget.categoryIds[0]
+                        : null,
+                    items: [
+                      DropdownMenuItem(value: null, child: Text('No category')),
+                      ...categories.map((e) {
+                        return DropdownMenuItem(
+                          value: e.id,
+                          child: Text(e.name),
+                        );
+                      }),
+                    ].toList(),
                     onChanged: (value) {
                       setState(() {
                         if (widget.categoryIds.isNotEmpty) {

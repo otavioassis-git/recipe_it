@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:recipe_it/models/category_model.dart';
+import 'package:recipe_it/models/category_recipe_model.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -80,14 +81,34 @@ class DatabaseService {
     await db.insert(_categoriesTable, category.toMap());
   }
 
-  Future<List<Recipe>> getAllCategorylessRecipes() async {
+  Future<List<CategoryRecipe>> getAllUncategorizedRecipes() async {
     final Database db = await database;
-    final List<Map<String, dynamic>> recipes = await db.query(
-      _recipesTable,
-      where: '$_recipesCategoryId IS NULL',
-      orderBy: _recipesName,
-    );
-    return recipes.map((e) => Recipe.fromMap(e)).toList();
+    final List<Map<String, dynamic>> recipesRaw = await db.rawQuery('''
+      SELECT r.*, c.$_categoriesName AS categoryName
+      FROM $_recipesTable AS r
+      LEFT OUTER JOIN $_categoriesTable AS c
+        ON r.$_recipesCategoryId = c.$_categoriesId
+      ORDER BY $_recipesName;
+    ''');
+
+    final List<CategoryRecipe> categories = [];
+    for (final recipe in recipesRaw) {
+      int categoryIndex = categories.indexWhere(
+        (category) => category.categoryId == recipe['categoryId'],
+      );
+      if (categoryIndex == -1) {
+        categories.add(
+          CategoryRecipe(
+            categoryId: recipe['categoryId'],
+            categoryName: recipe['categoryName'],
+            recipes: [Recipe.fromMap(recipe)],
+          ),
+        );
+      } else {
+        categories[categoryIndex].recipes.add(Recipe.fromMap(recipe));
+      }
+    }
+    return categories;
   }
 
   Future<List<Category>> getAllCategories() async {
