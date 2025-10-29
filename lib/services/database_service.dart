@@ -125,7 +125,7 @@ class DatabaseService {
     await db.update(
       _recipesTable,
       {_recipesCategoryId: null},
-      where: '$_categoriesId = ?',
+      where: '$_recipesCategoryId = ?',
       whereArgs: [id],
     );
     return db.delete(

@@ -62,7 +62,12 @@ class _AddRecipeState extends State<AddRecipe> {
       appBar: AppBar(
         title: Text(text.add_new),
         centerTitle: true,
-        leading: CloseButton(onPressed: () => Navigator.pop(context)),
+        leading: CloseButton(
+          onPressed: () {
+            Navigator.pop(context);
+            updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
+          },
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
