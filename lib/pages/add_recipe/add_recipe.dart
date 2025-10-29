@@ -390,9 +390,16 @@ class CategorySectionState extends State<CategorySection> {
                             ),
                             FilledButton(
                               onPressed: () {
-                                databaseService.insertCategory(
-                                  Category(name: nameController.text),
-                                );
+                                databaseService
+                                    .insertCategory(
+                                      Category(name: nameController.text),
+                                    )
+                                    .then((categoryId) {
+                                      if (widget.categoryIds.isNotEmpty) {
+                                        widget.categoryIds.removeAt(0);
+                                      }
+                                      widget.categoryIds.add(categoryId);
+                                    });
                                 Navigator.pop(context);
                                 setState(() {});
                               },
@@ -423,12 +430,113 @@ class CategorySectionState extends State<CategorySection> {
                     value: widget.categoryIds.isNotEmpty
                         ? widget.categoryIds[0]
                         : null,
+                    selectedItemBuilder: (context) {
+                      return [
+                        DropdownMenuItem(
+                          value: null,
+                          child: Text('No category'),
+                        ),
+                        ...categories.map((e) {
+                          return DropdownMenuItem(
+                            value: e.id,
+                            child: Text(e.name),
+                          );
+                        }),
+                      ];
+                    },
                     items: [
                       DropdownMenuItem(value: null, child: Text('No category')),
                       ...categories.map((e) {
                         return DropdownMenuItem(
                           value: e.id,
-                          child: Text(e.name),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(e.name),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Dialog(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          spacing: 16,
+                                          children: [
+                                            Text(
+                                              'Confirm deletion',
+                                              style:
+                                                  theme.textTheme.headlineSmall,
+                                            ),
+                                            Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        'Are you sure you want to delete the ',
+                                                  ),
+                                                  TextSpan(
+                                                    text: '${e.name}',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  TextSpan(text: ' category?'),
+                                                ],
+                                              ),
+                                            ),
+                                            Text(
+                                              'If there\'s any recipe associated with this category, it will be categorized under "Uncategorized".',
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: Text('Close'),
+                                                ),
+                                                SizedBox(width: 8),
+                                                FilledButton(
+                                                  onPressed: () {
+                                                    databaseService
+                                                        .deleteCategory(e.id!)
+                                                        .then((categoryId) {
+                                                          setState(() {
+                                                            if (widget
+                                                                    .categoryIds
+                                                                    .isNotEmpty &&
+                                                                widget.categoryIds[0] ==
+                                                                    categoryId) {
+                                                              widget.categoryIds
+                                                                  .removeAt(0);
+                                                            }
+                                                          });
+                                                        });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('Delete'),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.delete),
+                              ),
+                            ],
+                          ),
                         );
                       }),
                     ].toList(),
