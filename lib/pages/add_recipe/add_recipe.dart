@@ -467,6 +467,22 @@ class IngredientsSection extends StatefulWidget {
 }
 
 class _IngredientsSectionState extends State<IngredientsSection> {
+  final List<FocusNode> focusNodes = [];
+
+  @override
+  void initState() {
+    focusNodes.add(FocusNode());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (int i = 0; i < focusNodes.length; i++) {
+      focusNodes[i].dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -479,6 +495,8 @@ class _IngredientsSectionState extends State<IngredientsSection> {
               onPressed: () {
                 setState(() {
                   widget.ingredientsControllers.add(TextEditingController());
+                  focusNodes.add(FocusNode());
+                  focusNodes[focusNodes.length - 1].requestFocus();
                 });
               },
               icon: Icon(Icons.add),
@@ -498,6 +516,7 @@ class _IngredientsSectionState extends State<IngredientsSection> {
                       Expanded(
                         child: TextFormField(
                           controller: widget.ingredientsControllers[i],
+                          focusNode: focusNodes[i],
                         ),
                       ),
                       if (widget.ingredientsControllers.length > 1)
@@ -505,6 +524,9 @@ class _IngredientsSectionState extends State<IngredientsSection> {
                           onPressed: () {
                             setState(() {
                               widget.ingredientsControllers.removeAt(i);
+                              focusNodes[i].dispose();
+                              focusNodes.removeAt(i);
+                              focusNodes[i == 0 ? i : i - 1].requestFocus();
                             });
                           },
                           icon: Icon(Icons.delete),
@@ -571,12 +593,14 @@ class _StepsSectionState extends State<StepsSection> {
             IconButton(
               onPressed: () {
                 setState(() {
+                  isFocused[isFocused.length - 1] = false;
                   widget.stepsControllers.add(TextEditingController());
                   focusNodes.add(FocusNode());
                   isFocused.add(false);
                   focusNodes[focusNodes.length - 1].addListener(
                     () => _onFocusChange(focusNodes.length - 1),
                   );
+                  focusNodes[focusNodes.length - 1].requestFocus();
                 });
               },
               icon: Icon(Icons.add),
@@ -616,6 +640,7 @@ class _StepsSectionState extends State<StepsSection> {
                                 focusNodes[i].dispose();
                                 focusNodes.removeAt(i);
                                 isFocused.removeAt(i);
+                                focusNodes[i == 0 ? i : i - 1].requestFocus();
                               }
                             });
                           },
