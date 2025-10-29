@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/category_model.dart';
 import 'package:recipe_it/services/database_service.dart';
 
@@ -29,6 +30,7 @@ class CategorySectionState extends State<CategorySection> {
 
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return Column(
@@ -39,7 +41,7 @@ class CategorySectionState extends State<CategorySection> {
             Row(
               spacing: 8,
               children: [
-                Text('Category'),
+                Text(text.category),
                 SizedBox(
                   height: 16,
                   width: 16,
@@ -61,16 +63,14 @@ class CategorySectionState extends State<CategorySection> {
                                 'Info',
                                 style: theme.textTheme.headlineSmall,
                               ),
-                              Text(
-                                'If you don\'t add a category, the recipe will be added to the "Uncategorized" category.',
-                              ),
-                              Text('You can add a category later.'),
+                              Text(text.category_info_1),
+                              Text(text.category_info_2),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
-                                    child: Text('Close'),
+                                    child: Text(text.close),
                                   ),
                                 ],
                               ),
@@ -97,13 +97,13 @@ class CategorySectionState extends State<CategorySection> {
                       spacing: 16,
                       children: [
                         Text(
-                          'Add a category',
+                          '${text.add} ${text.category}',
                           style: theme.textTheme.headlineSmall,
                         ),
                         TextField(
                           controller: nameController,
                           decoration: InputDecoration(
-                            hintText: 'Category name',
+                            hintText: text.smt_name(text.category),
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -113,7 +113,7 @@ class CategorySectionState extends State<CategorySection> {
                           children: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
-                              child: Text('Cancel'),
+                              child: Text(text.cancel),
                             ),
                             FilledButton(
                               onPressed: () {
@@ -130,7 +130,7 @@ class CategorySectionState extends State<CategorySection> {
                                 Navigator.pop(context);
                                 setState(() {});
                               },
-                              child: Text('Add'),
+                              child: Text(text.add),
                             ),
                           ],
                         ),
@@ -172,7 +172,10 @@ class CategorySectionState extends State<CategorySection> {
                       ];
                     },
                     items: [
-                      DropdownMenuItem(value: null, child: Text('No category')),
+                      DropdownMenuItem(
+                        value: null,
+                        child: Text(text.no_category),
+                      ),
                       ...categories.map((e) {
                         return DropdownMenuItem(
                           value: e.id,
@@ -197,7 +200,7 @@ class CategorySectionState extends State<CategorySection> {
                                           spacing: 16,
                                           children: [
                                             Text(
-                                              'Confirm deletion',
+                                              text.confirm_deletion_title,
                                               style:
                                                   theme.textTheme.headlineSmall,
                                             ),
@@ -205,23 +208,30 @@ class CategorySectionState extends State<CategorySection> {
                                               TextSpan(
                                                 children: [
                                                   TextSpan(
-                                                    text:
-                                                        'Are you sure you want to delete the ',
+                                                    text: text
+                                                        .delition_confirmation
+                                                        .split(
+                                                          "categoryName",
+                                                        )[0],
                                                   ),
                                                   TextSpan(
-                                                    text: '${e.name}',
+                                                    text: e.name,
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
                                                   ),
-                                                  TextSpan(text: ' category?'),
+                                                  TextSpan(
+                                                    text: text
+                                                        .delition_confirmation
+                                                        .split(
+                                                          "categoryName",
+                                                        )[1],
+                                                  ),
                                                 ],
                                               ),
                                             ),
-                                            Text(
-                                              'If there\'s any recipe associated with this category, it will be categorized under "Uncategorized".',
-                                            ),
+                                            Text(text.deletion_info),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -229,7 +239,7 @@ class CategorySectionState extends State<CategorySection> {
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(context),
-                                                  child: Text('Close'),
+                                                  child: Text(text.close),
                                                 ),
                                                 SizedBox(width: 8),
                                                 FilledButton(
@@ -250,7 +260,7 @@ class CategorySectionState extends State<CategorySection> {
                                                         });
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text('Delete'),
+                                                  child: Text(text.delete),
                                                 ),
                                               ],
                                             ),
@@ -279,7 +289,7 @@ class CategorySectionState extends State<CategorySection> {
                 } else if (snapshot.hasData && snapshot.data!.isEmpty) {
                   return SizedBox(
                     width: double.infinity,
-                    child: Text('No categories registered'),
+                    child: Text(text.category_empty),
                   );
                 }
                 return const Center(child: CircularProgressIndicator());

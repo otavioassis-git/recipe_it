@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/l10n/app_localizations.dart';
 
 class DescriptionSection extends StatefulWidget {
   const DescriptionSection({super.key, required this.descriptionController});
@@ -35,13 +36,15 @@ class _DescriptionSectionState extends State<DescriptionSection> {
 
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Description'),
+            Text(text.description),
             isFocused
                 ? IconButton(
                     onPressed: () => focusNode.unfocus(),
@@ -59,7 +62,7 @@ class _DescriptionSectionState extends State<DescriptionSection> {
               maxLines: null,
               focusNode: focusNode,
               decoration: InputDecoration(
-                hintText: 'Tell a little bit about the recipe...',
+                hintText: text.description_placeholder,
               ),
             ),
           ),

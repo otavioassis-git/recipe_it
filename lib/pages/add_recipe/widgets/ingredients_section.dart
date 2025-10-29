@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/l10n/app_localizations.dart';
 
 class IngredientsSection extends StatefulWidget {
   const IngredientsSection({super.key, required this.ingredientsControllers});
@@ -28,12 +29,14 @@ class _IngredientsSectionState extends State<IngredientsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Ingredients'),
+            Text(text.ingredients),
             IconButton(
               onPressed: () {
                 setState(() {

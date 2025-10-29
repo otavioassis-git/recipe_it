@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/l10n/app_localizations.dart';
 
 class StepsSection extends StatefulWidget {
   const StepsSection({super.key, required this.stepsControllers});
@@ -40,6 +41,7 @@ class _StepsSectionState extends State<StepsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return Column(
@@ -47,7 +49,7 @@ class _StepsSectionState extends State<StepsSection> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Steps'),
+            Text(text.steps),
             IconButton(
               onPressed: () {
                 setState(() {

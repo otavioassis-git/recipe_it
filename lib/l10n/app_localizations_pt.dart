@@ -36,5 +36,72 @@ class AppLocalizationsPt extends AppLocalizations {
   String get search => 'Pesquisar';
 
   @override
-  String get add_new => 'Adicionar receita';
+  String get add => 'Adicionar';
+
+  @override
+  String get recipe => 'Receita';
+
+  @override
+  String get create => 'Adicionar';
+
+  @override
+  String empty_error(String field) {
+    return '$field não pode estar vazio';
+  }
+
+  @override
+  String get name => 'Nome';
+
+  @override
+  String get description => 'Descrição';
+
+  @override
+  String get ingredients => 'Ingredientes';
+
+  @override
+  String get steps => 'Etapas';
+
+  @override
+  String get category => 'Categoria';
+
+  @override
+  String get category_info_1 =>
+      'Se você não adicionar uma categoria, a receita será adicionada à categoria \"Sem categoria\".';
+
+  @override
+  String get category_info_2 => 'Você pode adicionar uma categoria mais tarde.';
+
+  @override
+  String get close => 'Fechar';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get no_category => 'Sem categoria';
+
+  @override
+  String get confirm_deletion_title => 'Confirmar exclusão';
+
+  @override
+  String get delition_confirmation =>
+      'Tem certeza de que deseja excluir a categoria categoryName?';
+
+  @override
+  String get deletion_info =>
+      'Se houver alguma receita associada a esta categoria, ela será categorizada em \"Sem categoria\".';
+
+  @override
+  String get delete => 'Excluir';
+
+  @override
+  String get category_empty => 'Nenhuma categoria registrada';
+
+  @override
+  String smt_name(String something) {
+    return 'Nome da $something';
+  }
+
+  @override
+  String get description_placeholder => 'Fale um pouco sobre a receita...';
 }

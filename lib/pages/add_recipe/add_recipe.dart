@@ -58,9 +58,105 @@ class _AddRecipeState extends State<AddRecipe> {
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
 
+    void createRecipe() {
+      final name = nameController.text;
+      final description = descriptionController.text;
+      final ingredients = ingredientsControllers
+          .map((e) => e.text)
+          .toList()
+          .where((e) => e.isNotEmpty)
+          .toList();
+      final steps = stepsControllers
+          .map((e) => e.text)
+          .toList()
+          .where((e) => e.isNotEmpty)
+          .toList();
+
+      if (name.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            content: Row(
+              children: [
+                Icon(Icons.error),
+                SizedBox(width: 4),
+                Text(text.empty_error(text.name)),
+              ],
+            ),
+          ),
+        );
+        return;
+      }
+
+      if (description.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            content: Row(
+              children: [
+                Icon(Icons.error),
+                SizedBox(width: 4),
+                Text(text.empty_error(text.description)),
+              ],
+            ),
+          ),
+        );
+        return;
+      }
+
+      if (ingredients.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            content: Row(
+              children: [
+                Icon(Icons.error),
+                SizedBox(width: 4),
+                Text(text.empty_error(text.ingredients)),
+              ],
+            ),
+          ),
+        );
+        return;
+      }
+
+      if (steps.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            content: Row(
+              children: [
+                Icon(Icons.error),
+                SizedBox(width: 4),
+                Text(text.empty_error(text.steps)),
+              ],
+            ),
+          ),
+        );
+        return;
+      }
+
+      databaseService.insertRecipe(
+        Recipe(
+          name: name,
+          description: description,
+          ingredients: ingredients.join(';'),
+          steps: steps.join(';'),
+          categoryId: categoryIds.isNotEmpty ? categoryIds[0] : null,
+        ),
+      );
+
+      Navigator.pop(context);
+      updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(text.add_new),
+        title: Text('${text.add} ${text.recipe}'),
         centerTitle: true,
         leading: CloseButton(
           onPressed: () {
@@ -95,105 +191,12 @@ class _AddRecipeState extends State<AddRecipe> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: FilledButton(onPressed: _createRecipe, child: Text('Create')),
+          child: FilledButton(
+            onPressed: createRecipe,
+            child: Text(text.create),
+          ),
         ),
       ),
     );
-  }
-
-  void _createRecipe() {
-    final name = nameController.text;
-    final description = descriptionController.text;
-    final ingredients = ingredientsControllers
-        .map((e) => e.text)
-        .toList()
-        .where((e) => e.isNotEmpty)
-        .toList();
-    final steps = stepsControllers
-        .map((e) => e.text)
-        .toList()
-        .where((e) => e.isNotEmpty)
-        .toList();
-
-    if (name.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-          content: Row(
-            children: [
-              Icon(Icons.error),
-              SizedBox(width: 4),
-              Text('Name cannot be empty'),
-            ],
-          ),
-        ),
-      );
-      return;
-    }
-
-    if (description.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-          content: Row(
-            children: [
-              Icon(Icons.error),
-              SizedBox(width: 4),
-              Text('Description cannot be empty'),
-            ],
-          ),
-        ),
-      );
-      return;
-    }
-
-    if (ingredients.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-          content: Row(
-            children: [
-              Icon(Icons.error),
-              SizedBox(width: 4),
-              Text('Ingredients cannot be empty'),
-            ],
-          ),
-        ),
-      );
-      return;
-    }
-
-    if (steps.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-          content: Row(
-            children: [
-              Icon(Icons.error),
-              SizedBox(width: 4),
-              Text('Steps cannot be empty'),
-            ],
-          ),
-        ),
-      );
-      return;
-    }
-
-    databaseService.insertRecipe(
-      Recipe(
-        name: name,
-        description: description,
-        ingredients: ingredients.join(';'),
-        steps: steps.join(';'),
-        categoryId: categoryIds.isNotEmpty ? categoryIds[0] : null,
-      ),
-    );
-
-    Navigator.pop(context);
-    updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
   }
 }

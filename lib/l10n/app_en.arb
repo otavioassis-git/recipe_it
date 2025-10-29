@@ -36,8 +36,100 @@
   "@search": {
     "description": "Search screen title"
   },
-  "add_new": "Add recipe",
-  "@add_new": {
-    "description": "Add new screen title"
+  "add": "Add",
+  "@add": {
+    "description": "Add button title"
+  },
+  "recipe": "Recipe",
+  "@recipe": {
+    "description": "Recipe screen title"
+  },
+  "create": "Create",
+  "@create": {
+    "description": "Add new screen footer button title"
+  },
+  "empty_error": "{field} cannot be empty",
+  "@empty_error": {
+    "description": "Empty field error message",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Description"
+      }
+    }
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Recipe name field label"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Recipe description field label"
+  },
+  "ingredients": "Ingredients",
+  "@ingredients": {
+    "description": "Recipe ingredients field label"
+  },
+  "steps": "Steps",
+  "@steps": {
+    "description": "Recipe steps field label"
+  },
+  "category": "Category",
+  "@category": {
+    "description": "Recipe category field label"
+  },
+  "category_info_1": "If you don't add a category, the recipe will be added to the \"Uncategorized\" category.",
+  "@category_info_1": {
+    "description": "Recipe category info message"
+  },
+  "category_info_2": "You can add a category later.",
+  "@category_info_2": {
+    "description": "Recipe category info message"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button title"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button title"
+  },
+  "no_category": "No category",
+  "@no_category": {
+    "description": "No category label"
+  },
+  "confirm_deletion_title": "confirm deletion",
+  "@confirm_deletion_title": {
+    "description": "Confirm deletion dialog title"
+  },
+  "delition_confirmation": "Are you sure you want to delete the categoryName category?",
+  "@delition_confirmation": {
+    "description": "Confirm deletion dialog message"
+  },
+  "deletion_info": "If there's any recipe associated with this category, it will be categorized under \"Uncategorized\".",
+  "@deletion_info": {
+    "description": "Confirm deletion dialog info message"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button title"
+  },
+  "category_empty": "No categories registered",
+  "@category_empty": {
+    "description": "Category empty message"
+  },
+  "smt_name": "{something} name",
+  "@smt_name": {
+    "description": "Category name field label",
+    "placeholders": {
+      "something": {
+        "type": "String",
+        "example": "Category"
+      }
+    }
+  },
+  "description_placeholder": "Tell a little bit about the recipe...",
+  "@description_placeholder": {
+    "description": "Recipe description placeholder"
   }
 }

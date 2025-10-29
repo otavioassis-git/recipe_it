@@ -33,7 +33,7 @@ class Home extends StatelessWidget {
           ),
           body: WidgetsTree(),
           floatingActionButton: FloatingActionButton(
-            tooltip: text.add_new,
+            tooltip: '${text.add} ${text.recipe}',
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddRecipe()),

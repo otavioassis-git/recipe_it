@@ -36,5 +36,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search => 'Search';
 
   @override
-  String get add_new => 'Add recipe';
+  String get add => 'Add';
+
+  @override
+  String get recipe => 'Recipe';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String empty_error(String field) {
+    return '$field cannot be empty';
+  }
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get ingredients => 'Ingredients';
+
+  @override
+  String get steps => 'Steps';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get category_info_1 =>
+      'If you don\'t add a category, the recipe will be added to the \"Uncategorized\" category.';
+
+  @override
+  String get category_info_2 => 'You can add a category later.';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get no_category => 'No category';
+
+  @override
+  String get confirm_deletion_title => 'confirm deletion';
+
+  @override
+  String get delition_confirmation =>
+      'Are you sure you want to delete the categoryName category?';
+
+  @override
+  String get deletion_info =>
+      'If there\'s any recipe associated with this category, it will be categorized under \"Uncategorized\".';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get category_empty => 'No categories registered';
+
+  @override
+  String smt_name(String something) {
+    return '$something name';
+  }
+
+  @override
+  String get description_placeholder => 'Tell a little bit about the recipe...';
 }
