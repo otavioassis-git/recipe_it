@@ -134,4 +134,9 @@ class DatabaseService {
       whereArgs: [id],
     );
   }
+
+  Future<int> deleteRecipe(int id) async {
+    final Database db = await database;
+    return db.delete(_recipesTable, where: '$_recipesId = ?', whereArgs: [id]);
+  }
 }

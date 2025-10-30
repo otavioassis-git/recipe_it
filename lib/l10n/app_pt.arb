@@ -36,7 +36,7 @@
   "recipe": "Receita",
   "no_category": "Sem categoria",
   "confirm_deletion_title": "Confirmar exclusão",
-  "delition_confirmation": "Tem certeza de que deseja excluir a categoria categoryName?",
+  "delition_confirmation": "Tem certeza de que deseja excluir a {type} typeName?",
   "deletion_info": "Se houver alguma receita associada a esta categoria, ela será categorizada em \"Sem categoria\".",
   "delete": "Excluir",
   "category_empty": "Nenhuma categoria registrada",

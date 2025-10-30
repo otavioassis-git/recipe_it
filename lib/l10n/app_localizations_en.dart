@@ -81,11 +81,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get no_category => 'No category';
 
   @override
-  String get confirm_deletion_title => 'confirm deletion';
+  String get confirm_deletion_title => 'Confirm deletion';
 
   @override
-  String get delition_confirmation =>
-      'Are you sure you want to delete the categoryName category?';
+  String delition_confirmation(String type) {
+    return 'Are you sure you want to delete the typeName $type?';
+  }
 
   @override
   String get deletion_info =>

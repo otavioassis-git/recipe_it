@@ -84,8 +84,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get confirm_deletion_title => 'Confirmar exclusão';
 
   @override
-  String get delition_confirmation =>
-      'Tem certeza de que deseja excluir a categoria categoryName?';
+  String delition_confirmation(String type) {
+    return 'Tem certeza de que deseja excluir a $type typeName?';
+  }
 
   @override
   String get deletion_info =>

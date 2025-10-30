@@ -239,14 +239,14 @@ abstract class AppLocalizations {
   /// Confirm deletion dialog title
   ///
   /// In en, this message translates to:
-  /// **'confirm deletion'**
+  /// **'Confirm deletion'**
   String get confirm_deletion_title;
 
   /// Confirm deletion dialog message
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete the categoryName category?'**
-  String get delition_confirmation;
+  /// **'Are you sure you want to delete the typeName {type}?'**
+  String delition_confirmation(String type);
 
   /// Confirm deletion dialog info message
   ///

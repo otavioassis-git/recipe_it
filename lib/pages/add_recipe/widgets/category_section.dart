@@ -209,10 +209,11 @@ class CategorySectionState extends State<CategorySection> {
                                                 children: [
                                                   TextSpan(
                                                     text: text
-                                                        .delition_confirmation
-                                                        .split(
-                                                          "categoryName",
-                                                        )[0],
+                                                        .delition_confirmation(
+                                                          text.category
+                                                              .toLowerCase(),
+                                                        )
+                                                        .split("typeName")[0],
                                                   ),
                                                   TextSpan(
                                                     text: e.name,
@@ -223,10 +224,11 @@ class CategorySectionState extends State<CategorySection> {
                                                   ),
                                                   TextSpan(
                                                     text: text
-                                                        .delition_confirmation
-                                                        .split(
-                                                          "categoryName",
-                                                        )[1],
+                                                        .delition_confirmation(
+                                                          text.category
+                                                              .toLowerCase(),
+                                                        )
+                                                        .split("typeName")[1],
                                                   ),
                                                 ],
                                               ),

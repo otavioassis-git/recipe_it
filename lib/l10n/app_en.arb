@@ -98,13 +98,19 @@
   "@no_category": {
     "description": "No category label"
   },
-  "confirm_deletion_title": "confirm deletion",
+  "confirm_deletion_title": "Confirm deletion",
   "@confirm_deletion_title": {
     "description": "Confirm deletion dialog title"
   },
-  "delition_confirmation": "Are you sure you want to delete the categoryName category?",
+  "delition_confirmation": "Are you sure you want to delete the typeName {type}?",
   "@delition_confirmation": {
-    "description": "Confirm deletion dialog message"
+    "description": "Confirm deletion dialog message",
+    "placeholders": {
+      "type": {
+        "type": "String",
+        "example": "category"
+      }
+    }
   },
   "deletion_info": "If there's any recipe associated with this category, it will be categorized under \"Uncategorized\".",
   "@deletion_info": {
