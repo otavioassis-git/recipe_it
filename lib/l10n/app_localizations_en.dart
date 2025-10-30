@@ -71,6 +71,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cook_time => 'Cook time';
 
   @override
+  String get total_time => 'Total time';
+
+  @override
   String get category_info_1 =>
       'If you don\'t add a category, the recipe will be added to the \"Uncategorized\" category.';
 

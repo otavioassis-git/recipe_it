@@ -218,6 +218,12 @@ abstract class AppLocalizations {
   /// **'Cook time'**
   String get cook_time;
 
+  /// Recipe total time field label
+  ///
+  /// In en, this message translates to:
+  /// **'Total time'**
+  String get total_time;
+
   /// Recipe category info message
   ///
   /// In en, this message translates to:

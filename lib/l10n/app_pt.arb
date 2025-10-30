@@ -30,6 +30,7 @@
   "category": "Categoria",
   "prep_time": "Tempo de preparação",
   "cook_time": "Tempo de cozimento",
+  "total_time": "Tempo total",
   "category_info_1": "Se você não adicionar uma categoria, a receita será adicionada à categoria \"Sem categoria\".",
   "category_info_2": "Você pode adicionar uma categoria mais tarde.",
   "close": "Fechar",

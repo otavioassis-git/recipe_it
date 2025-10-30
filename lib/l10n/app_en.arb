@@ -86,6 +86,10 @@
   "@cook_time": {
     "description": "Recipe cook time field label"
   },
+  "total_time": "Total time",
+  "@total_time": {
+    "description": "Recipe total time field label"
+  },
   "category_info_1": "If you don't add a category, the recipe will be added to the \"Uncategorized\" category.",
   "@category_info_1": {
     "description": "Recipe category info message"

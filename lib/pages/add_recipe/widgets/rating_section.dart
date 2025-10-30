@@ -29,7 +29,7 @@ class _RatingSectionState extends State<RatingSection> {
                 child: Padding(
                   padding: EdgeInsets.all(12.0),
                   child: RatingBar.builder(
-                    itemBuilder: (context, index) => Icon(Icons.star),
+                    itemBuilder: (_, _) => Icon(Icons.star),
                     onRatingUpdate: (value) => setState(() {
                       widget.difficulty[0] = value;
                     }),

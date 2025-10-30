@@ -71,6 +71,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get cook_time => 'Tempo de cozimento';
 
   @override
+  String get total_time => 'Tempo total';
+
+  @override
   String get category_info_1 =>
       'Se você não adicionar uma categoria, a receita será adicionada à categoria \"Sem categoria\".';
 
