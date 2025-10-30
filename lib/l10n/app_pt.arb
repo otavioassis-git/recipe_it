@@ -28,6 +28,8 @@
   "ingredients": "Ingredientes",
   "steps": "Etapas",
   "category": "Categoria",
+  "prep_time": "Tempo de preparação",
+  "cook_time": "Tempo de cozimento",
   "category_info_1": "Se você não adicionar uma categoria, a receita será adicionada à categoria \"Sem categoria\".",
   "category_info_2": "Você pode adicionar uma categoria mais tarde.",
   "close": "Fechar",
@@ -43,5 +45,6 @@
   "smt_name": "Nome da {something}",
   "description_placeholder": "Fale um pouco sobre a receita...",
   "recipe_empty": "Nenhuma receita cadatrada",
-  "favorite_empty": "Nenhuma receita favorita"
+  "favorite_empty": "Nenhuma receita favorita",
+  "min": "minutos"
 }

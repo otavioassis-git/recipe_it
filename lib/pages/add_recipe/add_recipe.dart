@@ -6,6 +6,7 @@ import 'package:recipe_it/pages/add_recipe/widgets/category_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/description_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/ingredients_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/name_section.dart';
+import 'package:recipe_it/pages/add_recipe/widgets/prep_time_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/steps_section.dart';
 import 'package:recipe_it/services/database_service.dart';
 
@@ -22,6 +23,8 @@ class _AddRecipeState extends State<AddRecipe> {
   late TextEditingController descriptionController;
   final List<TextEditingController> ingredientsControllers = [];
   final List<TextEditingController> stepsControllers = [];
+  final TextEditingController prepTimeController = TextEditingController();
+  final TextEditingController cookTimeController = TextEditingController();
   final List<int?> categoryIds = [];
 
   @override
@@ -71,6 +74,8 @@ class _AddRecipeState extends State<AddRecipe> {
           .toList()
           .where((e) => e.isNotEmpty)
           .toList();
+      final prepTime = int.tryParse(prepTimeController.text);
+      final cookTime = int.tryParse(cookTimeController.text);
 
       if (name.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -140,6 +145,40 @@ class _AddRecipeState extends State<AddRecipe> {
         return;
       }
 
+      if (prepTimeController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            content: Row(
+              children: [
+                Icon(Icons.error),
+                SizedBox(width: 4),
+                Text(text.empty_error(text.prep_time)),
+              ],
+            ),
+          ),
+        );
+        return;
+      }
+
+      if (cookTimeController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            content: Row(
+              children: [
+                Icon(Icons.error),
+                SizedBox(width: 4),
+                Text(text.empty_error(text.cook_time)),
+              ],
+            ),
+          ),
+        );
+        return;
+      }
+
       databaseService.insertRecipe(
         Recipe(
           name: name,
@@ -147,6 +186,8 @@ class _AddRecipeState extends State<AddRecipe> {
           ingredients: ingredients.join(';'),
           steps: steps.join(';'),
           categoryId: categoryIds.isNotEmpty ? categoryIds[0] : null,
+          prepTime: prepTime,
+          cookTime: cookTime,
         ),
       );
 
@@ -182,6 +223,10 @@ class _AddRecipeState extends State<AddRecipe> {
                   ingredientsControllers: ingredientsControllers,
                 ),
                 StepsSection(stepsControllers: stepsControllers),
+                PrepTimeSection(
+                  prepTimeController: prepTimeController,
+                  cookTimeController: cookTimeController,
+                ),
                 SizedBox(height: 16),
               ],
             ),

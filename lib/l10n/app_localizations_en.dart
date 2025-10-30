@@ -65,6 +65,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get category => 'Category';
 
   @override
+  String get prep_time => 'Preparation time';
+
+  @override
+  String get cook_time => 'Cook time';
+
+  @override
   String get category_info_1 =>
       'If you don\'t add a category, the recipe will be added to the \"Uncategorized\" category.';
 
@@ -111,4 +117,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get favorite_empty => 'No favorites recipes';
+
+  @override
+  String get min => 'minutes';
 }

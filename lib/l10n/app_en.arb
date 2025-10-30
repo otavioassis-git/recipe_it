@@ -78,6 +78,14 @@
   "@category": {
     "description": "Recipe category field label"
   },
+  "prep_time": "Preparation time",
+  "@prep_time": {
+    "description": "Recipe prep time field label"
+  },
+  "cook_time": "Cook time",
+  "@cook_time": {
+    "description": "Recipe cook time field label"
+  },
   "category_info_1": "If you don't add a category, the recipe will be added to the \"Uncategorized\" category.",
   "@category_info_1": {
     "description": "Recipe category info message"
@@ -145,5 +153,9 @@
   "favorite_empty": "No favorites recipes",
   "@favorite_empty": {
     "description": "Favorite empty message"
+  },
+  "min": "minutes",
+  "@min": {
+    "description": "Minute label"
   }
 }

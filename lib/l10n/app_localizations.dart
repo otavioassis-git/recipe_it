@@ -206,6 +206,18 @@ abstract class AppLocalizations {
   /// **'Category'**
   String get category;
 
+  /// Recipe prep time field label
+  ///
+  /// In en, this message translates to:
+  /// **'Preparation time'**
+  String get prep_time;
+
+  /// Recipe cook time field label
+  ///
+  /// In en, this message translates to:
+  /// **'Cook time'**
+  String get cook_time;
+
   /// Recipe category info message
   ///
   /// In en, this message translates to:
@@ -289,6 +301,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No favorites recipes'**
   String get favorite_empty;
+
+  /// Minute label
+  ///
+  /// In en, this message translates to:
+  /// **'minutes'**
+  String get min;
 }
 
 class _AppLocalizationsDelegate
