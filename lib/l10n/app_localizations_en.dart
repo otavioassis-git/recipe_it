@@ -119,5 +119,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get favorite_empty => 'No favorites recipes';
 
   @override
-  String get min => 'minutes';
+  String get minutes => 'minutes';
+
+  @override
+  String get difficulty => 'Difficulty';
+
+  @override
+  String get rating => 'Rating';
 }

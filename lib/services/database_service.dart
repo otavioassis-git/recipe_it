@@ -56,12 +56,12 @@ class DatabaseService {
             $_recipesImage TEXT,
             $_recipesIngredients TEXT NOT NULL,
             $_recipesSteps TEXT NOT NULL,
-            $_recipesPrepTime INTEGER,
-            $_recipesCookTime INTEGER,
-            $_recipesTotalTime INTEGER,
-            $_recipesDifficulty TEXT,
-            $_recipesRating INTEGER,
-            $_recipesIsFavorite INTEGER,
+            $_recipesPrepTime INTEGER NOT NULL,
+            $_recipesCookTime INTEGER NOT NULL,
+            $_recipesTotalTime INTEGER NOT NULL,
+            $_recipesDifficulty INTEGER NOT NULL,
+            $_recipesRating INTEGER NOT NULL,
+            $_recipesIsFavorite INTEGER NOT NULL,
             $_recipesCategoryId INTEGER,
             FOREIGN KEY($_recipesCategoryId) REFERENCES $_categoriesTable($_categoriesId)
               ON DELETE NO ACTION ON UPDATE NO ACTION

@@ -306,7 +306,19 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'minutes'**
-  String get min;
+  String get minutes;
+
+  /// Difficulty label
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get difficulty;
+
+  /// Rating label
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get rating;
 }
 
 class _AppLocalizationsDelegate

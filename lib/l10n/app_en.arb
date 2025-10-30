@@ -154,8 +154,16 @@
   "@favorite_empty": {
     "description": "Favorite empty message"
   },
-  "min": "minutes",
-  "@min": {
+  "minutes": "minutes",
+  "@minutes": {
     "description": "Minute label"
+  },
+  "difficulty": "Difficulty",
+  "@difficulty": {
+    "description": "Difficulty label"
+  },
+  "rating": "Rating",
+  "@rating": {
+    "description": "Rating label"
   }
 }

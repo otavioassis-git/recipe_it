@@ -41,7 +41,7 @@ class _PrepTimeSectionState extends State<PrepTimeSection> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(text.min),
+                Text(text.minutes),
                 const SizedBox(width: 16),
                 Expanded(
                   child: TextFormField(
@@ -54,7 +54,7 @@ class _PrepTimeSectionState extends State<PrepTimeSection> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(text.min),
+                Text(text.minutes),
               ],
             ),
           ),

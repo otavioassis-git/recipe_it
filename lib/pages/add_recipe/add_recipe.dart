@@ -4,6 +4,7 @@ import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/category_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/description_section.dart';
+import 'package:recipe_it/pages/add_recipe/widgets/rating_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/ingredients_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/name_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/prep_time_section.dart';
@@ -26,6 +27,7 @@ class _AddRecipeState extends State<AddRecipe> {
   final TextEditingController prepTimeController = TextEditingController();
   final TextEditingController cookTimeController = TextEditingController();
   final List<int?> categoryIds = [];
+  final List<double> rating = <double>[];
 
   @override
   void initState() {
@@ -44,6 +46,8 @@ class _AddRecipeState extends State<AddRecipe> {
     descriptionController = TextEditingController();
     ingredientsControllers.add(TextEditingController());
     stepsControllers.add(TextEditingController());
+    rating.add(0);
+    rating.add(0);
   }
 
   void _disposeControllers() {
@@ -76,6 +80,8 @@ class _AddRecipeState extends State<AddRecipe> {
           .toList();
       final prepTime = int.tryParse(prepTimeController.text);
       final cookTime = int.tryParse(cookTimeController.text);
+      final difficulty = rating[0];
+      final score = rating[1];
 
       if (name.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -186,8 +192,11 @@ class _AddRecipeState extends State<AddRecipe> {
           ingredients: ingredients.join(';'),
           steps: steps.join(';'),
           categoryId: categoryIds.isNotEmpty ? categoryIds[0] : null,
-          prepTime: prepTime,
-          cookTime: cookTime,
+          prepTime: prepTime!,
+          cookTime: cookTime!,
+          totalTime: prepTime + cookTime,
+          difficulty: difficulty,
+          rating: score,
         ),
       );
 
@@ -227,6 +236,7 @@ class _AddRecipeState extends State<AddRecipe> {
                   prepTimeController: prepTimeController,
                   cookTimeController: cookTimeController,
                 ),
+                RatingSection(difficulty: rating),
                 SizedBox(height: 16),
               ],
             ),

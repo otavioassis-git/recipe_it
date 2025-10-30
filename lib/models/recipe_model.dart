@@ -5,11 +5,11 @@ class Recipe {
   final String? image;
   final String ingredients;
   final String steps;
-  final int? prepTime;
-  final int? cookTime;
-  final int? totalTime;
-  final String? difficulty;
-  final int? rating;
+  final int prepTime;
+  final int cookTime;
+  final int totalTime;
+  final double difficulty;
+  final double rating;
   bool? isFavorite;
   final int? categoryId;
 
@@ -20,11 +20,11 @@ class Recipe {
     this.image,
     required this.ingredients,
     required this.steps,
-    this.prepTime,
-    this.cookTime,
-    this.totalTime,
-    this.difficulty,
-    this.rating,
+    required this.prepTime,
+    required this.cookTime,
+    required this.totalTime,
+    required this.difficulty,
+    required this.rating,
     this.isFavorite,
     this.categoryId,
   });
@@ -58,8 +58,8 @@ class Recipe {
       prepTime: map['prepTime'],
       cookTime: map['cookTime'],
       totalTime: map['totalTime'],
-      difficulty: map['difficulty'],
-      rating: map['rating'],
+      difficulty: map['difficulty'].toDouble(),
+      rating: map['rating'].toDouble(),
       isFavorite: map['isFavorite'] == 1,
       categoryId: map['categoryId'],
     );
