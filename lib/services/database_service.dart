@@ -93,8 +93,6 @@ class DatabaseService {
       ORDER BY categoryName;
     ''');
 
-    print(recipesRaw);
-
     final List<CategoryRecipe> categories = [];
     for (final recipe in recipesRaw) {
       int categoryIndex = categories.indexWhere(
