@@ -41,5 +41,7 @@
   "delete": "Excluir",
   "category_empty": "Nenhuma categoria registrada",
   "smt_name": "Nome da {something}",
-  "description_placeholder": "Fale um pouco sobre a receita..."
+  "description_placeholder": "Fale um pouco sobre a receita...",
+  "recipe_empty": "Nenhuma receita cadatrada",
+  "favorite_empty": "Nenhuma receita favorita"
 }

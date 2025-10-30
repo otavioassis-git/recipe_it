@@ -81,15 +81,19 @@ class DatabaseService {
     return await db.insert(_categoriesTable, category.toMap());
   }
 
-  Future<List<CategoryRecipe>> getAllUncategorizedRecipes() async {
+  Future<List<CategoryRecipe>> getRecipes(bool getOnlyFavorites) async {
     final Database db = await database;
     final List<Map<String, dynamic>> recipesRaw = await db.rawQuery('''
       SELECT r.*, c.$_categoriesName AS categoryName
-      FROM $_recipesTable AS r
-      LEFT OUTER JOIN $_categoriesTable AS c
+      FROM 
+        $_recipesTable AS r
+        LEFT OUTER JOIN $_categoriesTable AS c
         ON r.$_recipesCategoryId = c.$_categoriesId
+      ${getOnlyFavorites ? 'WHERE r.$_recipesIsFavorite = 1' : ''}
       ORDER BY categoryName;
     ''');
+
+    print(recipesRaw);
 
     final List<CategoryRecipe> categories = [];
     for (final recipe in recipesRaw) {
@@ -138,5 +142,15 @@ class DatabaseService {
   Future<int> deleteRecipe(int id) async {
     final Database db = await database;
     return db.delete(_recipesTable, where: '$_recipesId = ?', whereArgs: [id]);
+  }
+
+  Future<void> favoriteRecipe(int id, bool isFavorite) async {
+    final Database db = await database;
+    await db.update(
+      _recipesTable,
+      {'$_recipesIsFavorite': isFavorite ? 1 : 0},
+      where: '$_recipesId = ?',
+      whereArgs: [id],
+    );
   }
 }

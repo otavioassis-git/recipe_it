@@ -137,5 +137,13 @@
   "description_placeholder": "Tell a little bit about the recipe...",
   "@description_placeholder": {
     "description": "Recipe description placeholder"
+  },
+  "recipe_empty": "No recipes registered",
+  "@recipe_empty": {
+    "description": "Recipe empty message"
+  },
+  "favorite_empty": "No favorites recipes",
+  "@favorite_empty": {
+    "description": "Favorite empty message"
   }
 }

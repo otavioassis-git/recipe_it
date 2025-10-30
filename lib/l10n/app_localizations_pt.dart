@@ -105,4 +105,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get description_placeholder => 'Fale um pouco sobre a receita...';
+
+  @override
+  String get recipe_empty => 'Nenhuma receita cadatrada';
+
+  @override
+  String get favorite_empty => 'Nenhuma receita favorita';
 }

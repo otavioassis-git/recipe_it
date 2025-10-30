@@ -277,6 +277,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tell a little bit about the recipe...'**
   String get description_placeholder;
+
+  /// Recipe empty message
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes registered'**
+  String get recipe_empty;
+
+  /// Favorite empty message
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites recipes'**
+  String get favorite_empty;
 }
 
 class _AppLocalizationsDelegate

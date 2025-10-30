@@ -8,8 +8,8 @@ class WidgetsTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> children = [
-      const RecipesList(),
-      const Text("Favorites"),
+      const RecipesList(isOnlyFavorites: false),
+      const RecipesList(isOnlyFavorites: true),
     ];
 
     return ValueListenableBuilder(

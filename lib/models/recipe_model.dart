@@ -10,7 +10,7 @@ class Recipe {
   final int? totalTime;
   final String? difficulty;
   final int? rating;
-  final bool? isFavorite;
+  bool? isFavorite;
   final int? categoryId;
 
   Recipe({

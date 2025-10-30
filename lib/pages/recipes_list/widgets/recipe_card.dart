@@ -5,11 +5,16 @@ import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/pages/recipe_details/recipe_details.dart';
 import 'package:recipe_it/services/database_service.dart';
 
-class RecipeCard extends StatelessWidget {
+class RecipeCard extends StatefulWidget {
   const RecipeCard({super.key, required this.recipe});
 
   final Recipe recipe;
 
+  @override
+  State<RecipeCard> createState() => _RecipeCardState();
+}
+
+class _RecipeCardState extends State<RecipeCard> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
@@ -41,7 +46,7 @@ class RecipeCard extends StatelessWidget {
                             .split("typeName")[0],
                       ),
                       TextSpan(
-                        text: recipe.name,
+                        text: widget.recipe.name,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
@@ -63,7 +68,7 @@ class RecipeCard extends StatelessWidget {
                     FilledButton(
                       onPressed: () {
                         databaseService
-                            .deleteRecipe(recipe.id!)
+                            .deleteRecipe(widget.recipe.id!)
                             .then(
                               (_) => updateRecipesListNotifier.value =
                                   !updateRecipesListNotifier.value,
@@ -83,8 +88,6 @@ class RecipeCard extends StatelessWidget {
 
     handleMenuSeleciton(String value) {
       switch (value) {
-        case 'favorite':
-          break;
         case 'edit':
           break;
         case 'delete':
@@ -98,7 +101,7 @@ class RecipeCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => RecipeDetails(recipe: recipe),
+            builder: (context) => RecipeDetails(recipe: widget.recipe),
           ),
         );
       },
@@ -114,11 +117,44 @@ class RecipeCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 4,
                   children: [
-                    Text(recipe.name, style: theme.textTheme.titleMedium),
-                    Text(recipe.description, style: theme.textTheme.bodySmall),
+                    Text(
+                      widget.recipe.name,
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    Text(
+                      widget.recipe.description,
+                      style: theme.textTheme.bodySmall,
+                    ),
                   ],
                 ),
               ),
+              SizedBox(
+                height: 24,
+                width: 24,
+                child: IconButton(
+                  iconSize: 18,
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    final bool newIsFavorite = widget.recipe.isFavorite == null
+                        ? true
+                        : !widget.recipe.isFavorite!;
+                    databaseService
+                        .favoriteRecipe(widget.recipe.id!, newIsFavorite)
+                        .then(
+                          (_) => setState(() {
+                            widget.recipe.isFavorite = newIsFavorite;
+                          }),
+                        );
+                  },
+                  icon: Icon(
+                    widget.recipe.isFavorite != null &&
+                            widget.recipe.isFavorite!
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
+                  ),
+                ),
+              ),
+              SizedBox(width: 4),
               SizedBox(
                 height: 24,
                 width: 24,
@@ -129,10 +165,6 @@ class RecipeCard extends StatelessWidget {
                   onSelected: (value) => handleMenuSeleciton(value),
                   itemBuilder: (BuildContext context) =>
                       <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'favorite',
-                          child: Text('Favorite'),
-                        ),
                         const PopupMenuItem<String>(
                           value: 'edit',
                           child: Text('Edit'),

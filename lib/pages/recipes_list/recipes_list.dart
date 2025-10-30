@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/data/notifiers.dart';
+import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/category_recipe_model.dart';
 import 'package:recipe_it/pages/recipes_list/widgets/recipe_card.dart';
 import 'package:recipe_it/services/database_service.dart';
 
 class RecipesList extends StatefulWidget {
-  const RecipesList({super.key});
+  const RecipesList({super.key, required this.isOnlyFavorites});
+
+  final bool isOnlyFavorites;
 
   @override
   State<RecipesList> createState() => _RecipesListState();
@@ -18,10 +21,12 @@ class _RecipesListState extends State<RecipesList> {
 
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context)!;
+
     return ValueListenableBuilder(
       valueListenable: updateRecipesListNotifier,
       builder: (context, value, child) => FutureBuilder(
-        future: databaseService.getAllUncategorizedRecipes(),
+        future: databaseService.getRecipes(widget.isOnlyFavorites),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final categories = snapshot.data as List<CategoryRecipe>;
@@ -73,7 +78,13 @@ class _RecipesListState extends State<RecipesList> {
               ),
             );
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-            return const Center(child: Text('No recipes found'));
+            return Center(
+              child: Text(
+                widget.isOnlyFavorites
+                    ? text.favorite_empty
+                    : text.recipe_empty,
+              ),
+            );
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           }

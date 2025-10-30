@@ -105,4 +105,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get description_placeholder => 'Tell a little bit about the recipe...';
+
+  @override
+  String get recipe_empty => 'No recipes registered';
+
+  @override
+  String get favorite_empty => 'No favorites recipes';
 }
