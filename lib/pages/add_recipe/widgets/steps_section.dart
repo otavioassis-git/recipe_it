@@ -53,14 +53,17 @@ class _StepsSectionState extends State<StepsSection> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  isFocused[isFocused.length - 1] = false;
-                  widget.stepsControllers.add(TextEditingController());
-                  focusNodes.add(FocusNode());
+                  for (int i = 0; i < isFocused.length; i++) {
+                    isFocused[i] = false;
+                  }
                   isFocused.add(false);
-                  focusNodes[focusNodes.length - 1].addListener(
-                    () => _onFocusChange(focusNodes.length - 1),
+                  focusNodes.add(FocusNode());
+                  final lastIndex = focusNodes.length - 1;
+                  focusNodes[lastIndex].addListener(
+                    () => _onFocusChange(lastIndex),
                   );
-                  focusNodes[focusNodes.length - 1].requestFocus();
+                  widget.stepsControllers.add(TextEditingController());
+                  focusNodes[lastIndex].requestFocus();
                 });
               },
               icon: Icon(Icons.add),
