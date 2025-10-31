@@ -161,7 +161,7 @@ class CategorySectionState extends State<CategorySection> {
                       return [
                         DropdownMenuItem(
                           value: null,
-                          child: Text('No category'),
+                          child: Text(text.no_category),
                         ),
                         ...categories.map((e) {
                           return DropdownMenuItem(

@@ -75,6 +75,7 @@ class ScoringTimingSection extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: RatingBar.builder(
                     initialRating: recipe.difficulty,
+                    itemSize: 18,
                     itemBuilder: (_, _) => Icon(Icons.star),
                     onRatingUpdate: (value) {},
                   ),
@@ -88,6 +89,7 @@ class ScoringTimingSection extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: RatingBar.builder(
                     initialRating: recipe.rating,
+                    itemSize: 18,
                     itemBuilder: (_, _) => Icon(Icons.star),
                     onRatingUpdate: (value) {},
                   ),

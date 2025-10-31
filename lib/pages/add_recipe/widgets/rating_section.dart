@@ -16,48 +16,44 @@ class _RatingSectionState extends State<RatingSection> {
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
 
-    return Row(
+    return Column(
       spacing: 16,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [Text(text.difficulty), SizedBox(height: 48)]),
-              Card(
-                margin: const EdgeInsets.all(0),
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: RatingBar.builder(
-                    itemBuilder: (_, _) => Icon(Icons.star),
-                    onRatingUpdate: (value) => setState(() {
-                      widget.difficulty[0] = value;
-                    }),
-                  ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [Text(text.difficulty), SizedBox(height: 48)]),
+            Card(
+              margin: const EdgeInsets.all(0),
+              child: Padding(
+                padding: EdgeInsets.all(12.0),
+                child: RatingBar.builder(
+                  itemBuilder: (_, _) => Icon(Icons.star),
+                  onRatingUpdate: (value) => setState(() {
+                    widget.difficulty[0] = value;
+                  }),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [Text(text.rating), SizedBox(height: 48)]),
-              Card(
-                margin: const EdgeInsets.all(0),
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: RatingBar.builder(
-                    itemBuilder: (context, index) => Icon(Icons.star),
-                    onRatingUpdate: (value) => setState(() {
-                      widget.difficulty[1] = value;
-                    }),
-                  ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [Text(text.rating), SizedBox(height: 48)]),
+            Card(
+              margin: const EdgeInsets.all(0),
+              child: Padding(
+                padding: EdgeInsets.all(12.0),
+                child: RatingBar.builder(
+                  itemBuilder: (context, index) => Icon(Icons.star),
+                  onRatingUpdate: (value) => setState(() {
+                    widget.difficulty[1] = value;
+                  }),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

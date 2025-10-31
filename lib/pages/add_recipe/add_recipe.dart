@@ -3,6 +3,7 @@ import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/category_section.dart';
+import 'package:recipe_it/pages/add_recipe/widgets/cook_time_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/description_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/rating_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/ingredients_section.dart';
@@ -232,10 +233,8 @@ class _AddRecipeState extends State<AddRecipe> {
                   ingredientsControllers: ingredientsControllers,
                 ),
                 StepsSection(stepsControllers: stepsControllers),
-                PrepTimeSection(
-                  prepTimeController: prepTimeController,
-                  cookTimeController: cookTimeController,
-                ),
+                PrepTimeSection(prepTimeController: prepTimeController),
+                CookTimeSection(cookTimeController: cookTimeController),
                 RatingSection(difficulty: rating),
                 SizedBox(height: 16),
               ],

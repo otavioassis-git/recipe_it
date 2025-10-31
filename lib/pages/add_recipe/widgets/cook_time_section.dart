@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 
-class PrepTimeSection extends StatefulWidget {
-  const PrepTimeSection({super.key, required this.prepTimeController});
+class CookTimeSection extends StatefulWidget {
+  const CookTimeSection({super.key, required this.cookTimeController});
 
-  final TextEditingController prepTimeController;
+  final TextEditingController cookTimeController;
 
   @override
-  State<PrepTimeSection> createState() => _PrepTimeSectionState();
+  State<CookTimeSection> createState() => _CookTimeSectionState();
 }
 
-class _PrepTimeSectionState extends State<PrepTimeSection> {
+class _CookTimeSectionState extends State<CookTimeSection> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
@@ -28,10 +28,10 @@ class _PrepTimeSectionState extends State<PrepTimeSection> {
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: widget.prepTimeController,
+                    controller: widget.cookTimeController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: text.prep_time,
+                      hintText: text.cook_time,
                       border: OutlineInputBorder(),
                     ),
                   ),

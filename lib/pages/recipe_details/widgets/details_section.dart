@@ -21,10 +21,10 @@ class DetailsSection extends StatelessWidget {
       i++;
       return numering == true
           ? Row(
-              spacing: 4,
+              spacing: 8,
               children: [
                 Text('${i + 1}.', style: theme.textTheme.titleMedium),
-                Text(e),
+                Expanded(child: Text(e)),
               ],
             )
           : Text(e);
