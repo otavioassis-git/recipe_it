@@ -221,6 +221,7 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
             totalTime: prepTime + cookTime,
             difficulty: difficulty,
             rating: score,
+            isFavorite: widget.recipe!.isFavorite,
           ),
         );
       } else {
