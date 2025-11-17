@@ -41,7 +41,7 @@ class ScoringTimingSection extends StatelessWidget {
                 margin: const EdgeInsets.all(0),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Text('${recipe.prepTime} ${text.minutes}'),
+                  child: Text('${recipe.cookTime} ${text.minutes}'),
                 ),
               ),
             ),
