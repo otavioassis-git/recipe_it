@@ -258,51 +258,62 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
       ),
       resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-              SizedBox(height: 8.0),
-              NameSection(nameController: nameController),
-              SizedBox(height: 8.0),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Column(
-                        spacing: 4,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 8.0),
+                  NameSection(nameController: nameController),
+                  SizedBox(height: 8.0),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
                         children: [
-                          DescriptionSection(
-                            descriptionController: descriptionController,
+                          Column(
+                            spacing: 4,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DescriptionSection(
+                                descriptionController: descriptionController,
+                              ),
+                              CategorySection(categoryIds: categoryIds),
+                              IngredientsSection(
+                                ingredientsControllers: ingredientsControllers,
+                              ),
+                              StepsSection(stepsControllers: stepsControllers),
+                              PrepTimeSection(
+                                prepTimeController: prepTimeController,
+                              ),
+                              CookTimeSection(
+                                cookTimeController: cookTimeController,
+                              ),
+                              RatingSection(rating: rating),
+                              SizedBox(height: 56),
+                            ],
                           ),
-                          CategorySection(categoryIds: categoryIds),
-                          IngredientsSection(
-                            ingredientsControllers: ingredientsControllers,
-                          ),
-                          StepsSection(stepsControllers: stepsControllers),
-                          PrepTimeSection(
-                            prepTimeController: prepTimeController,
-                          ),
-                          CookTimeSection(
-                            cookTimeController: cookTimeController,
-                          ),
-                          RatingSection(rating: rating),
-                          SizedBox(height: 16),
                         ],
                       ),
-                    ],
+                    ),
                   ),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 6.0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: ElevatedButton.icon(
+                  onPressed: submitRecipe,
+                  icon: Icon(widget.isEdit ? Icons.edit : Icons.add),
+                  label: Text(widget.isEdit ? text.edit : text.create),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
-      floatingActionButton: FilledButton.icon(
-        onPressed: submitRecipe,
-        icon: Icon(widget.isEdit ? Icons.edit : Icons.add),
-        label: Text(widget.isEdit ? text.edit : text.create),
       ),
     );
   }

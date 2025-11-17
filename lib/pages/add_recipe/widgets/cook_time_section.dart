@@ -18,7 +18,7 @@ class _CookTimeSectionState extends State<CookTimeSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(children: [Text(text.prep_time), SizedBox(height: 48)]),
+        Row(children: [Text(text.cook_time), SizedBox(height: 48)]),
         Card(
           margin: const EdgeInsets.all(0),
           child: Padding(

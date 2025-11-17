@@ -15,10 +15,7 @@ class WidgetsTree extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: currentPageNotifier,
       builder: (context, currentPage, child) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18),
-          child: children[currentPage],
-        );
+        return children[currentPage];
       },
     );
   }

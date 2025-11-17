@@ -17,8 +17,6 @@ class RecipesList extends StatefulWidget {
 class _RecipesListState extends State<RecipesList> {
   final DatabaseService databaseService = DatabaseService.instance;
 
-  final List<bool> panelExpansionControl = [];
-
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
@@ -30,49 +28,55 @@ class _RecipesListState extends State<RecipesList> {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final categories = snapshot.data as List<CategoryRecipe>;
+
             List<Widget> uncategorizedRecipes = [];
             if (categories[0].categoryId == null) {
               uncategorizedRecipes = categories[0].recipes.map((recipe) {
-                return RecipeCard(recipe: recipe);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 2.0,
+                  ),
+                  child: RecipeCard(recipe: recipe),
+                );
               }).toList();
               categories.removeAt(0);
             }
-            if (panelExpansionControl.isEmpty) {
-              panelExpansionControl.addAll(
-                List.filled(categories.length, true, growable: false),
-              );
-            }
-            int index = -1;
+
             final categorizedRecipes = categories.map((category) {
-              index++;
-              return ExpansionPanel(
-                isExpanded: panelExpansionControl[index],
-                canTapOnHeader: true,
-                headerBuilder: (context, isExpanded) {
-                  return ListTile(title: Text(category.categoryName!));
-                },
-                body: Column(
-                  spacing: 8,
-                  children: category.recipes.map((recipe) {
-                    return RecipeCard(recipe: recipe);
-                  }).toList(),
+              return ExpansionTile(
+                clipBehavior: Clip.none,
+                shape: const RoundedRectangleBorder(side: BorderSide.none),
+                collapsedShape: const RoundedRectangleBorder(
+                  side: BorderSide.none,
                 ),
+                title: Text(category.categoryName!),
+                initiallyExpanded: categories.length <= 5,
+                children: [
+                  Column(
+                    spacing: 8,
+                    children: [
+                      SizedBox(),
+                      ...category.recipes.map((recipe) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 2.0,
+                          ),
+                          child: RecipeCard(recipe: recipe),
+                        );
+                      }),
+                    ],
+                  ),
+                ],
               );
             });
             return SingleChildScrollView(
               child: Column(
-                spacing: 8,
+                spacing: 6,
                 children: [
                   ...uncategorizedRecipes,
-                  ExpansionPanelList(
-                    elevation: 0,
-                    expansionCallback: (panelIndex, isExpanded) {
-                      setState(() {
-                        panelExpansionControl[panelIndex] = isExpanded;
-                      });
-                    },
-                    children: [...categorizedRecipes],
-                  ),
+                  ...categorizedRecipes,
                   const SizedBox(height: 16),
                 ],
               ),
