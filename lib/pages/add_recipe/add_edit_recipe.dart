@@ -260,45 +260,55 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
       body: SafeArea(
         child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  SizedBox(height: 8.0),
-                  NameSection(nameController: nameController),
-                  SizedBox(height: 8.0),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Column(
-                            spacing: 4,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              DescriptionSection(
-                                descriptionController: descriptionController,
+            Column(
+              children: [
+                SizedBox(height: 8.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: NameSection(nameController: nameController),
+                ),
+                SizedBox(height: 8.0),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Column(
+                          spacing: 4,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DescriptionSection(
+                              descriptionController: descriptionController,
+                            ),
+                            CategorySection(categoryIds: categoryIds),
+                            IngredientsSection(
+                              ingredientsControllers: ingredientsControllers,
+                            ),
+                            StepsSection(stepsControllers: stepsControllers),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
                               ),
-                              CategorySection(categoryIds: categoryIds),
-                              IngredientsSection(
-                                ingredientsControllers: ingredientsControllers,
+                              child: Column(
+                                spacing: 4,
+                                children: [
+                                  PrepTimeSection(
+                                    prepTimeController: prepTimeController,
+                                  ),
+                                  CookTimeSection(
+                                    cookTimeController: cookTimeController,
+                                  ),
+                                  RatingSection(rating: rating),
+                                ],
                               ),
-                              StepsSection(stepsControllers: stepsControllers),
-                              PrepTimeSection(
-                                prepTimeController: prepTimeController,
-                              ),
-                              CookTimeSection(
-                                cookTimeController: cookTimeController,
-                              ),
-                              RatingSection(rating: rating),
-                              SizedBox(height: 56),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                            SizedBox(height: 56),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             Positioned(
               bottom: 6.0,

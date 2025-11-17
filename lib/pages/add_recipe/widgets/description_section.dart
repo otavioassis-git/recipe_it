@@ -43,28 +43,36 @@ class _DescriptionSectionState extends State<DescriptionSection> {
     return StickyHeader(
       header: Container(
         color: theme.colorScheme.surface,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(text.description),
-            isFocused
-                ? IconButton(
-                    onPressed: () => focusNode.unfocus(),
-                    icon: Icon(Icons.check),
-                  )
-                : const SizedBox(height: 48),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(text.description),
+              isFocused
+                  ? IconButton(
+                      onPressed: () => focusNode.unfocus(),
+                      icon: Icon(Icons.check),
+                    )
+                  : const SizedBox(height: 48),
+            ],
+          ),
         ),
       ),
-      content: Card(
-        margin: const EdgeInsets.all(0),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: TextFormField(
-            controller: widget.descriptionController,
-            maxLines: null,
-            focusNode: focusNode,
-            decoration: InputDecoration(hintText: text.description_placeholder),
+      content: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Card(
+          margin: const EdgeInsets.all(0),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextFormField(
+              controller: widget.descriptionController,
+              maxLines: null,
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                hintText: text.description_placeholder,
+              ),
+            ),
           ),
         ),
       ),

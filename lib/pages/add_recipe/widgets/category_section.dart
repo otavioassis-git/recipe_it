@@ -38,142 +38,160 @@ class CategorySectionState extends State<CategorySection> {
     return StickyHeader(
       header: Container(
         color: theme.colorScheme.surface,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              spacing: 8,
-              children: [
-                Text(text.category),
-                SizedBox(
-                  height: 16,
-                  width: 16,
-                  child: IconButton(
-                    iconSize: 18,
-                    padding: EdgeInsets.all(0),
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (context) => Dialog(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 16,
-                            children: [
-                              Text(
-                                'Info',
-                                style: theme.textTheme.headlineSmall,
-                              ),
-                              Text(text.category_info_1),
-                              Text(text.category_info_2),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text(text.close),
-                                  ),
-                                ],
-                              ),
-                            ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                spacing: 8,
+                children: [
+                  Text(text.category),
+                  SizedBox(
+                    height: 16,
+                    width: 16,
+                    child: IconButton(
+                      iconSize: 18,
+                      padding: EdgeInsets.all(0),
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 16,
+                              children: [
+                                Text(
+                                  'Info',
+                                  style: theme.textTheme.headlineSmall,
+                                ),
+                                Text(text.category_info_1),
+                                Text(text.category_info_2),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(text.close),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    icon: Icon(Icons.info_outline),
-                  ),
-                ),
-              ],
-            ),
-            IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (context) => Dialog(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 16,
-                      children: [
-                        Text(
-                          '${text.add} ${text.category}',
-                          style: theme.textTheme.headlineSmall,
-                        ),
-                        TextField(
-                          controller: nameController,
-                          decoration: InputDecoration(
-                            hintText: text.smt_name(text.category),
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          spacing: 8,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                nameController.text = '';
-                              },
-                              child: Text(text.cancel),
-                            ),
-                            FilledButton(
-                              onPressed: () {
-                                databaseService
-                                    .insertCategory(
-                                      Category(name: nameController.text),
-                                    )
-                                    .then((categoryId) {
-                                      if (widget.categoryIds.isNotEmpty) {
-                                        widget.categoryIds.removeAt(0);
-                                      }
-                                      widget.categoryIds.add(categoryId);
-                                      categories.add(
-                                        Category(
-                                          id: categoryId,
-                                          name: nameController.text,
-                                        ),
-                                      );
-                                    });
-                                Navigator.pop(context);
-                                setState(() {
-                                  nameController.text = '';
-                                });
-                              },
-                              child: Text(text.add),
-                            ),
-                          ],
-                        ),
-                      ],
+                      icon: Icon(Icons.info_outline),
                     ),
                   ),
-                ),
+                ],
               ),
-              icon: const Icon(Icons.add),
-            ),
-          ],
+              IconButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 16,
+                        children: [
+                          Text(
+                            '${text.add} ${text.category}',
+                            style: theme.textTheme.headlineSmall,
+                          ),
+                          TextField(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                              hintText: text.smt_name(text.category),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            spacing: 8,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  nameController.text = '';
+                                },
+                                child: Text(text.cancel),
+                              ),
+                              FilledButton(
+                                onPressed: () {
+                                  databaseService
+                                      .insertCategory(
+                                        Category(name: nameController.text),
+                                      )
+                                      .then((categoryId) {
+                                        if (widget.categoryIds.isNotEmpty) {
+                                          widget.categoryIds.removeAt(0);
+                                        }
+                                        widget.categoryIds.add(categoryId);
+                                        categories.add(
+                                          Category(
+                                            id: categoryId,
+                                            name: nameController.text,
+                                          ),
+                                        );
+                                      });
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    nameController.text = '';
+                                  });
+                                },
+                                child: Text(text.add),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.add),
+              ),
+            ],
+          ),
         ),
       ),
-      content: Card(
-        margin: const EdgeInsets.all(0),
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
-          child: FutureBuilder(
-            future: databaseService.getAllCategories(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                categories = snapshot.data as List<Category>;
-                return DropdownButton(
-                  isExpanded: true,
-                  value: widget.categoryIds.isNotEmpty
-                      ? widget.categoryIds[0]
-                      : null,
-                  selectedItemBuilder: (context) {
-                    return [
+      content: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Card(
+          margin: const EdgeInsets.all(0),
+          child: Padding(
+            padding: EdgeInsets.all(12.0),
+            child: FutureBuilder(
+              future: databaseService.getAllCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  categories = snapshot.data as List<Category>;
+                  return DropdownButton(
+                    isExpanded: true,
+                    value: widget.categoryIds.isNotEmpty
+                        ? widget.categoryIds[0]
+                        : null,
+                    selectedItemBuilder: (context) {
+                      return [
+                        DropdownMenuItem(
+                          value: null,
+                          child: Text(text.no_category),
+                        ),
+                        ...categories.map((e) {
+                          return DropdownMenuItem(
+                            value: e.id,
+                            child: Text(e.name),
+                          );
+                        }),
+                      ];
+                    },
+                    items: [
                       DropdownMenuItem(
                         value: null,
                         child: Text(text.no_category),
@@ -181,137 +199,126 @@ class CategorySectionState extends State<CategorySection> {
                       ...categories.map((e) {
                         return DropdownMenuItem(
                           value: e.id,
-                          child: Text(e.name),
-                        );
-                      }),
-                    ];
-                  },
-                  items: [
-                    DropdownMenuItem(
-                      value: null,
-                      child: Text(text.no_category),
-                    ),
-                    ...categories.map((e) {
-                      return DropdownMenuItem(
-                        value: e.id,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(e.name),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => Dialog(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        spacing: 16,
-                                        children: [
-                                          Text(
-                                            text.confirm_deletion_title,
-                                            style:
-                                                theme.textTheme.headlineSmall,
-                                          ),
-                                          Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: text
-                                                      .delition_confirmation(
-                                                        text.category
-                                                            .toLowerCase(),
-                                                      )
-                                                      .split("typeName")[0],
-                                                ),
-                                                TextSpan(
-                                                  text: e.name,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(e.name),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Dialog(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          spacing: 16,
+                                          children: [
+                                            Text(
+                                              text.confirm_deletion_title,
+                                              style:
+                                                  theme.textTheme.headlineSmall,
+                                            ),
+                                            Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: text
+                                                        .delition_confirmation(
+                                                          text.category
+                                                              .toLowerCase(),
+                                                        )
+                                                        .split("typeName")[0],
                                                   ),
+                                                  TextSpan(
+                                                    text: e.name,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text: text
+                                                        .delition_confirmation(
+                                                          text.category
+                                                              .toLowerCase(),
+                                                        )
+                                                        .split("typeName")[1],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Text(text.deletion_info),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: Text(text.close),
                                                 ),
-                                                TextSpan(
-                                                  text: text
-                                                      .delition_confirmation(
-                                                        text.category
-                                                            .toLowerCase(),
-                                                      )
-                                                      .split("typeName")[1],
+                                                SizedBox(width: 8),
+                                                FilledButton(
+                                                  onPressed: () async {
+                                                    databaseService
+                                                        .deleteCategory(e.id!);
+                                                    categories.removeWhere(
+                                                      (element) =>
+                                                          element.id == e.id,
+                                                    );
+                                                    setState(() {
+                                                      if (widget
+                                                              .categoryIds
+                                                              .isNotEmpty &&
+                                                          widget.categoryIds[0] ==
+                                                              e.id!) {
+                                                        widget.categoryIds
+                                                            .clear();
+                                                      }
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(text.delete),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                          Text(text.deletion_info),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text(text.close),
-                                              ),
-                                              SizedBox(width: 8),
-                                              FilledButton(
-                                                onPressed: () async {
-                                                  databaseService
-                                                      .deleteCategory(e.id!);
-                                                  categories.removeWhere(
-                                                    (element) =>
-                                                        element.id == e.id,
-                                                  );
-                                                  setState(() {
-                                                    if (widget
-                                                            .categoryIds
-                                                            .isNotEmpty &&
-                                                        widget.categoryIds[0] ==
-                                                            e.id!) {
-                                                      widget.categoryIds
-                                                          .clear();
-                                                    }
-                                                  });
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text(text.delete),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.delete),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                  ].toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      if (widget.categoryIds.isNotEmpty) {
-                        widget.categoryIds.clear();
-                      }
-                      widget.categoryIds.add(value);
-                    });
-                  },
-                );
-              } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                return SizedBox(
-                  width: double.infinity,
-                  child: Text(text.category_empty),
-                );
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
+                                  );
+                                },
+                                icon: Icon(Icons.delete),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                    ].toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        if (widget.categoryIds.isNotEmpty) {
+                          widget.categoryIds.clear();
+                        }
+                        widget.categoryIds.add(value);
+                      });
+                    },
+                  );
+                } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                  return SizedBox(
+                    width: double.infinity,
+                    child: Text(text.category_empty),
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
         ),
       ),
