@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/pages/recipes_list/widgets/recipe_card.dart';
@@ -24,28 +25,33 @@ class _SearchListState extends State<SearchList> {
       return Center(child: Text(text.search_somethign));
     }
 
-    return Container(
-      height: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: FutureBuilder(
-        future: databaseService.getRecipesByName(widget.searchText),
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            final recipes = snapshot.data as List<Recipe>;
-            return SingleChildScrollView(
-              child: Column(
-                spacing: 8,
-                children: recipes.map((recipe) {
-                  return RecipeCard(recipe: recipe);
-                }).toList(),
-              ),
-            );
-          } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-            return Center(child: Text(text.search_empty));
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
+    return ValueListenableBuilder(
+      valueListenable: updateRecipesListNotifier,
+      builder: (context, value, child) {
+        return Container(
+          height: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: FutureBuilder(
+            future: databaseService.getRecipesByName(widget.searchText),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                final recipes = snapshot.data as List<Recipe>;
+                return SingleChildScrollView(
+                  child: Column(
+                    spacing: 8,
+                    children: recipes.map((recipe) {
+                      return RecipeCard(recipe: recipe);
+                    }).toList(),
+                  ),
+                );
+              } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                return Center(child: Text(text.search_empty));
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
+          ),
+        );
+      },
     );
   }
 }

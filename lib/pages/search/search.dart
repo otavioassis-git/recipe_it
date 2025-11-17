@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/pages/search/widgets/search_list.dart';
 
@@ -29,7 +30,14 @@ class _SearchState extends State<Search> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.pop(context);
+            updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
+          },
+        ),
+      ),
       body: Stack(
         children: [
           SearchList(searchText: searchController.text),
