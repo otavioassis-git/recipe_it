@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/category_model.dart';
 import 'package:recipe_it/services/database_service.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class CategorySection extends StatefulWidget {
   const CategorySection({super.key, required this.categoryIds});
@@ -34,9 +35,10 @@ class CategorySectionState extends State<CategorySection> {
     final theme = Theme.of(context);
     List<Category> categories = [];
 
-    return Column(
-      children: [
-        Row(
+    return StickyHeader(
+      header: Container(
+        color: theme.colorScheme.surface,
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
@@ -155,35 +157,23 @@ class CategorySectionState extends State<CategorySection> {
             ),
           ],
         ),
-        Card(
-          margin: const EdgeInsets.all(0),
-          child: Padding(
-            padding: EdgeInsets.all(12.0),
-            child: FutureBuilder(
-              future: databaseService.getAllCategories(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  categories = snapshot.data as List<Category>;
-                  return DropdownButton(
-                    isExpanded: true,
-                    value: widget.categoryIds.isNotEmpty
-                        ? widget.categoryIds[0]
-                        : null,
-                    selectedItemBuilder: (context) {
-                      return [
-                        DropdownMenuItem(
-                          value: null,
-                          child: Text(text.no_category),
-                        ),
-                        ...categories.map((e) {
-                          return DropdownMenuItem(
-                            value: e.id,
-                            child: Text(e.name),
-                          );
-                        }),
-                      ];
-                    },
-                    items: [
+      ),
+      content: Card(
+        margin: const EdgeInsets.all(0),
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: FutureBuilder(
+            future: databaseService.getAllCategories(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                categories = snapshot.data as List<Category>;
+                return DropdownButton(
+                  isExpanded: true,
+                  value: widget.categoryIds.isNotEmpty
+                      ? widget.categoryIds[0]
+                      : null,
+                  selectedItemBuilder: (context) {
+                    return [
                       DropdownMenuItem(
                         value: null,
                         child: Text(text.no_category),
@@ -191,129 +181,140 @@ class CategorySectionState extends State<CategorySection> {
                       ...categories.map((e) {
                         return DropdownMenuItem(
                           value: e.id,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(e.name),
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => Dialog(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          spacing: 16,
-                                          children: [
-                                            Text(
-                                              text.confirm_deletion_title,
-                                              style:
-                                                  theme.textTheme.headlineSmall,
-                                            ),
-                                            Text.rich(
-                                              TextSpan(
-                                                children: [
-                                                  TextSpan(
-                                                    text: text
-                                                        .delition_confirmation(
-                                                          text.category
-                                                              .toLowerCase(),
-                                                        )
-                                                        .split("typeName")[0],
-                                                  ),
-                                                  TextSpan(
-                                                    text: e.name,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  TextSpan(
-                                                    text: text
-                                                        .delition_confirmation(
-                                                          text.category
-                                                              .toLowerCase(),
-                                                        )
-                                                        .split("typeName")[1],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(text.deletion_info),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                          child: Text(e.name),
+                        );
+                      }),
+                    ];
+                  },
+                  items: [
+                    DropdownMenuItem(
+                      value: null,
+                      child: Text(text.no_category),
+                    ),
+                    ...categories.map((e) {
+                      return DropdownMenuItem(
+                        value: e.id,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(e.name),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => Dialog(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        spacing: 16,
+                                        children: [
+                                          Text(
+                                            text.confirm_deletion_title,
+                                            style:
+                                                theme.textTheme.headlineSmall,
+                                          ),
+                                          Text.rich(
+                                            TextSpan(
                                               children: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  child: Text(text.close),
+                                                TextSpan(
+                                                  text: text
+                                                      .delition_confirmation(
+                                                        text.category
+                                                            .toLowerCase(),
+                                                      )
+                                                      .split("typeName")[0],
                                                 ),
-                                                SizedBox(width: 8),
-                                                FilledButton(
-                                                  onPressed: () async {
-                                                    databaseService
-                                                        .deleteCategory(e.id!);
-                                                    categories.removeWhere(
-                                                      (element) =>
-                                                          element.id == e.id,
-                                                    );
-                                                    setState(() {
-                                                      if (widget
-                                                              .categoryIds
-                                                              .isNotEmpty &&
-                                                          widget.categoryIds[0] ==
-                                                              e.id!) {
-                                                        widget.categoryIds
-                                                            .clear();
-                                                      }
-                                                    });
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text(text.delete),
+                                                TextSpan(
+                                                  text: e.name,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: text
+                                                      .delition_confirmation(
+                                                        text.category
+                                                            .toLowerCase(),
+                                                      )
+                                                      .split("typeName")[1],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          Text(text.deletion_info),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: Text(text.close),
+                                              ),
+                                              SizedBox(width: 8),
+                                              FilledButton(
+                                                onPressed: () async {
+                                                  databaseService
+                                                      .deleteCategory(e.id!);
+                                                  categories.removeWhere(
+                                                    (element) =>
+                                                        element.id == e.id,
+                                                  );
+                                                  setState(() {
+                                                    if (widget
+                                                            .categoryIds
+                                                            .isNotEmpty &&
+                                                        widget.categoryIds[0] ==
+                                                            e.id!) {
+                                                      widget.categoryIds
+                                                          .clear();
+                                                    }
+                                                  });
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(text.delete),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  );
-                                },
-                                icon: Icon(Icons.delete),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                    ].toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        if (widget.categoryIds.isNotEmpty) {
-                          widget.categoryIds.clear();
-                        }
-                        widget.categoryIds.add(value);
-                      });
-                    },
-                  );
-                } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: Text(text.category_empty),
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.delete),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ].toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      if (widget.categoryIds.isNotEmpty) {
+                        widget.categoryIds.clear();
+                      }
+                      widget.categoryIds.add(value);
+                    });
+                  },
+                );
+              } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: Text(text.category_empty),
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
           ),
         ),
-      ],
+      ),
     );
   }
 }

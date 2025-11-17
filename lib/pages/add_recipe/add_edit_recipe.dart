@@ -256,40 +256,53 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
           },
         ),
       ),
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              spacing: 4,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                NameSection(nameController: nameController),
-                DescriptionSection(
-                  descriptionController: descriptionController,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              SizedBox(height: 8.0),
+              NameSection(nameController: nameController),
+              SizedBox(height: 8.0),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Column(
+                        spacing: 4,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DescriptionSection(
+                            descriptionController: descriptionController,
+                          ),
+                          CategorySection(categoryIds: categoryIds),
+                          IngredientsSection(
+                            ingredientsControllers: ingredientsControllers,
+                          ),
+                          StepsSection(stepsControllers: stepsControllers),
+                          PrepTimeSection(
+                            prepTimeController: prepTimeController,
+                          ),
+                          CookTimeSection(
+                            cookTimeController: cookTimeController,
+                          ),
+                          RatingSection(rating: rating),
+                          SizedBox(height: 16),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                CategorySection(categoryIds: categoryIds),
-                IngredientsSection(
-                  ingredientsControllers: ingredientsControllers,
-                ),
-                StepsSection(stepsControllers: stepsControllers),
-                PrepTimeSection(prepTimeController: prepTimeController),
-                CookTimeSection(cookTimeController: cookTimeController),
-                RatingSection(rating: rating),
-                SizedBox(height: 16),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: FilledButton(
-            onPressed: submitRecipe,
-            child: Text(widget.isEdit ? text.edit : text.create),
-          ),
-        ),
+      floatingActionButton: FilledButton.icon(
+        onPressed: submitRecipe,
+        icon: Icon(widget.isEdit ? Icons.edit : Icons.add),
+        label: Text(widget.isEdit ? text.edit : text.create),
       ),
     );
   }

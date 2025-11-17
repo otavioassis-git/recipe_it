@@ -48,25 +48,28 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            spacing: 4,
-            children: [
-              ScoringTimingSection(recipe: widget.recipe),
-              DetailsSection(
-                title: text.description,
-                contents: [widget.recipe.description],
-              ),
-              DetailsSection(
-                title: text.ingredients,
-                contents: widget.recipe.ingredients.split(';'),
-              ),
-              DetailsSection(
-                title: text.steps,
-                contents: widget.recipe.steps.split(';'),
-                numering: true,
-              ),
-            ],
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 4,
+              children: [
+                ScoringTimingSection(recipe: widget.recipe),
+                DetailsSection(
+                  title: text.description,
+                  contents: [widget.recipe.description],
+                ),
+                DetailsSection(
+                  title: text.ingredients,
+                  contents: widget.recipe.ingredients.split(';'),
+                ),
+                DetailsSection(
+                  title: text.steps,
+                  contents: widget.recipe.steps.split(';'),
+                  numering: true,
+                ),
+                SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),

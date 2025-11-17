@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class DescriptionSection extends StatefulWidget {
   const DescriptionSection({super.key, required this.descriptionController});
@@ -37,11 +38,12 @@ class _DescriptionSectionState extends State<DescriptionSection> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+    return StickyHeader(
+      header: Container(
+        color: theme.colorScheme.surface,
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(text.description),
@@ -53,21 +55,19 @@ class _DescriptionSectionState extends State<DescriptionSection> {
                 : const SizedBox(height: 48),
           ],
         ),
-        Card(
-          margin: const EdgeInsets.all(0),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextFormField(
-              controller: widget.descriptionController,
-              maxLines: null,
-              focusNode: focusNode,
-              decoration: InputDecoration(
-                hintText: text.description_placeholder,
-              ),
-            ),
+      ),
+      content: Card(
+        margin: const EdgeInsets.all(0),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: TextFormField(
+            controller: widget.descriptionController,
+            maxLines: null,
+            focusNode: focusNode,
+            decoration: InputDecoration(hintText: text.description_placeholder),
           ),
         ),
-      ],
+      ),
     );
   }
 }

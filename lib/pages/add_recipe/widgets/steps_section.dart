@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class StepsSection extends StatefulWidget {
   const StepsSection({super.key, required this.stepsControllers});
@@ -88,9 +89,10 @@ class _StepsSectionState extends State<StepsSection> {
     final text = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return Column(
-      children: [
-        Row(
+    return StickyHeader(
+      header: Container(
+        color: theme.colorScheme.surface,
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(text.steps),
@@ -117,56 +119,56 @@ class _StepsSectionState extends State<StepsSection> {
             ),
           ],
         ),
-        Card(
-          margin: const EdgeInsets.all(0),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              spacing: 4,
-              children: [
-                for (int i = 0; i < stepFocusControllers.length; i++)
-                  Row(
-                    children: [
-                      Text('${i + 1}.', style: theme.textTheme.titleMedium),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: stepFocusControllers[i].focusNode,
-                          controller: widget.stepsControllers[i],
-                          maxLines: null,
+      ),
+      content: Card(
+        margin: const EdgeInsets.all(0),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            spacing: 4,
+            children: [
+              for (int i = 0; i < stepFocusControllers.length; i++)
+                Row(
+                  children: [
+                    Text('${i + 1}.', style: theme.textTheme.titleMedium),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: stepFocusControllers[i].focusNode,
+                        controller: widget.stepsControllers[i],
+                        maxLines: null,
+                      ),
+                    ),
+                    if (stepFocusControllers.length > 1 || isKeyboardUp)
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (stepFocusControllers[i].isFocused) {
+                              stepFocusControllers[i].focusNode.unfocus();
+                            } else {
+                              widget.stepsControllers[i].dispose();
+                              widget.stepsControllers.remove(
+                                widget.stepsControllers[i],
+                              );
+                              stepFocusControllers[i].dispose();
+                              stepFocusControllers.remove(
+                                stepFocusControllers[i],
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(
+                          stepFocusControllers[i].isFocused
+                              ? Icons.check
+                              : Icons.delete,
                         ),
                       ),
-                      if (stepFocusControllers.length > 1 || isKeyboardUp)
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (stepFocusControllers[i].isFocused) {
-                                stepFocusControllers[i].focusNode.unfocus();
-                              } else {
-                                widget.stepsControllers[i].dispose();
-                                widget.stepsControllers.remove(
-                                  widget.stepsControllers[i],
-                                );
-                                stepFocusControllers[i].dispose();
-                                stepFocusControllers.remove(
-                                  stepFocusControllers[i],
-                                );
-                              }
-                            });
-                          },
-                          icon: Icon(
-                            stepFocusControllers[i].isFocused
-                                ? Icons.check
-                                : Icons.delete,
-                          ),
-                        ),
-                    ],
-                  ),
-              ],
-            ),
+                  ],
+                ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
