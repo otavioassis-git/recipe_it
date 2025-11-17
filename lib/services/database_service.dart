@@ -147,6 +147,17 @@ class DatabaseService {
     );
   }
 
+  Future<List<Recipe>> getRecipesByName(String name) async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> recipesRaw = await db.rawQuery('''
+      SELECT r.*
+      FROM $_recipesTable AS r
+      WHERE r.$_recipesName LIKE '%$name%'
+    ''');
+
+    return recipesRaw.map((e) => Recipe.fromMap(e)).toList();
+  }
+
   Future<int> deleteRecipe(int id) async {
     final Database db = await database;
     return db.delete(_recipesTable, where: '$_recipesId = ?', whereArgs: [id]);
