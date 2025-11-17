@@ -1,6 +1,6 @@
 import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
-import 'package:recipe_it/pages/add_recipe/add_recipe.dart';
+import 'package:recipe_it/pages/add_recipe/add_edit_recipe.dart';
 import 'package:recipe_it/pages/settings/settings.dart';
 import 'package:recipe_it/pages/widgets_tree/widgets_tree.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class Home extends StatelessWidget {
             tooltip: '${text.add} ${text.recipe}',
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddRecipe()),
+              MaterialPageRoute(builder: (context) => const AddEditRecipe()),
             ),
             child: const Icon(Icons.add),
           ),

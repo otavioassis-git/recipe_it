@@ -78,7 +78,8 @@ class AppLocalizationsPt extends AppLocalizations {
       'Se você não adicionar uma categoria, a receita será adicionada à categoria \"Sem categoria\".';
 
   @override
-  String get category_info_2 => 'Você pode adicionar uma categoria mais tarde.';
+  String get category_info_2 =>
+      'Você pode editar a receita e adicionar uma categoria mais tarde.';
 
   @override
   String get close => 'Fechar';
@@ -103,6 +104,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get delete => 'Excluir';
+
+  @override
+  String get edit => 'Editar';
 
   @override
   String get category_empty => 'Nenhuma categoria registrada';

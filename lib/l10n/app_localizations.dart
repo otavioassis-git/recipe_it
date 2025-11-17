@@ -233,7 +233,7 @@ abstract class AppLocalizations {
   /// Recipe category info message
   ///
   /// In en, this message translates to:
-  /// **'You can add a category later.'**
+  /// **'You can edit the recipe and add a category later.'**
   String get category_info_2;
 
   /// Close button title
@@ -277,6 +277,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// Edit button title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
 
   /// Category empty message
   ///

@@ -3,9 +3,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 
 class RatingSection extends StatefulWidget {
-  const RatingSection({super.key, required this.difficulty});
+  const RatingSection({super.key, required this.rating});
 
-  final List<double> difficulty;
+  final List<double> rating;
 
   @override
   State<RatingSection> createState() => _RatingSectionState();
@@ -28,9 +28,10 @@ class _RatingSectionState extends State<RatingSection> {
               child: Padding(
                 padding: EdgeInsets.all(12.0),
                 child: RatingBar.builder(
+                  initialRating: widget.rating[0],
                   itemBuilder: (_, _) => Icon(Icons.star),
                   onRatingUpdate: (value) => setState(() {
-                    widget.difficulty[0] = value;
+                    widget.rating[0] = value;
                   }),
                 ),
               ),
@@ -46,9 +47,10 @@ class _RatingSectionState extends State<RatingSection> {
               child: Padding(
                 padding: EdgeInsets.all(12.0),
                 child: RatingBar.builder(
+                  initialRating: widget.rating[1],
                   itemBuilder: (context, index) => Icon(Icons.star),
                   onRatingUpdate: (value) => setState(() {
-                    widget.difficulty[1] = value;
+                    widget.rating[1] = value;
                   }),
                 ),
               ),
