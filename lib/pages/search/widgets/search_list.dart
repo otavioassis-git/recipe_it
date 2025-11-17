@@ -24,7 +24,8 @@ class _SearchListState extends State<SearchList> {
       return Center(child: Text(text.search_somethign));
     }
 
-    return Padding(
+    return Container(
+      height: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: FutureBuilder(
         future: databaseService.getRecipesByName(widget.searchText),

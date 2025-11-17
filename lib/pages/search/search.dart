@@ -26,38 +26,56 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(),
-      body: SearchList(searchText: searchController.text),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
-        child: TextField(
-          controller: searchController,
-          decoration: InputDecoration(
-            hintText: text.search,
-            border: InputBorder.none,
-            suffix: SizedBox(
-              width: 20,
-              height: 20,
-              child: searchController.text.isNotEmpty
-                  ? IconButton.filled(
-                      onPressed: () {
-                        searchController.clear();
-                        setState(() {});
-                      },
-                      icon: Icon(Icons.clear, size: 16),
-                      padding: EdgeInsets.zero,
-                    )
-                  : null,
+      body: Stack(
+        children: [
+          SearchList(searchText: searchController.text),
+          Positioned(
+            bottom: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.colorScheme.inversePrimary,
+                    blurRadius: 8.0,
+                    spreadRadius: 2.0,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(32.0),
+                color: Colors.grey[200],
+              ),
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: text.search,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                  filled: true,
+                  fillColor: theme.colorScheme.surface,
+                  suffixIcon: searchController.text.isNotEmpty
+                      ? GestureDetector(
+                          child: Icon(Icons.clear),
+                          onTap: () {
+                            searchController.clear();
+                            setState(() {});
+                          },
+                        )
+                      : null,
+                ),
+                autofocus: true,
+                onChanged: (value) {
+                  setState(() {});
+                },
+              ),
             ),
           ),
-          maxLines: null,
-          autofocus: true,
-          onChanged: (value) {
-            setState(() {});
-          },
-        ),
+        ],
       ),
     );
   }
