@@ -36,6 +36,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search => 'Search';
 
   @override
+  String get search_somethign => 'Search something';
+
+  @override
   String get add => 'Add';
 
   @override
@@ -124,6 +127,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get favorite_empty => 'No favorites recipes';
+
+  @override
+  String get search_empty => 'No recipes found';
 
   @override
   String get minutes => 'minutes';

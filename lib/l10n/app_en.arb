@@ -36,6 +36,10 @@
   "@search": {
     "description": "Search screen title"
   },
+  "search_somethign": "Search something",
+  "@search_somethign": {
+    "description": "Search something"
+  },
   "add": "Add",
   "@add": {
     "description": "Add button title"
@@ -161,6 +165,10 @@
   "favorite_empty": "No favorites recipes",
   "@favorite_empty": {
     "description": "Favorite empty message"
+  },
+  "search_empty": "No recipes found",
+  "@search_empty": {
+    "description": "Search empty message"
   },
   "minutes": "minutes",
   "@minutes": {

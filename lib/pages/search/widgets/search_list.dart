@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/pages/recipes_list/widgets/recipe_card.dart';
 import 'package:recipe_it/services/database_service.dart';
@@ -17,8 +18,10 @@ class _SearchListState extends State<SearchList> {
 
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context)!;
+
     if (widget.searchText.isEmpty) {
-      return const Center(child: Text('Search something'));
+      return Center(child: Text(text.search_somethign));
     }
 
     return Padding(
@@ -26,7 +29,6 @@ class _SearchListState extends State<SearchList> {
       child: FutureBuilder(
         future: databaseService.getRecipesByName(widget.searchText),
         builder: (context, snapshot) {
-          print(snapshot.data);
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final recipes = snapshot.data as List<Recipe>;
             return SingleChildScrollView(
@@ -38,7 +40,7 @@ class _SearchListState extends State<SearchList> {
               ),
             );
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-            return Center(child: Text('No recipes found'));
+            return Center(child: Text(text.search_empty));
           }
           return const Center(child: CircularProgressIndicator());
         },

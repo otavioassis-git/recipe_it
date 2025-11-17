@@ -36,6 +36,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get search => 'Pesquisar';
 
   @override
+  String get search_somethign => 'Pesquise por algo';
+
+  @override
   String get add => 'Adicionar';
 
   @override
@@ -124,6 +127,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get favorite_empty => 'Nenhuma receita favorita';
+
+  @override
+  String get search_empty => 'Nenhuma receita encontrada';
 
   @override
   String get minutes => 'minutos';

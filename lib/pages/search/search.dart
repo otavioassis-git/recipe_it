@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/pages/search/widgets/search_list.dart';
 
 class Search extends StatefulWidget {
@@ -24,6 +25,8 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    final text = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(),
       body: SearchList(searchText: searchController.text),
@@ -32,7 +35,7 @@ class _SearchState extends State<Search> {
         child: TextField(
           controller: searchController,
           decoration: InputDecoration(
-            hintText: 'Search',
+            hintText: text.search,
             border: InputBorder.none,
             suffix: SizedBox(
               width: 20,

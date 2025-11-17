@@ -12,6 +12,7 @@
   "dark": "Escuro",
   "light": "Claro",
   "search": "Pesquisar",
+  "search_somethign": "Pesquise por algo",
   "create": "Adicionar",
   "empty_error": "{field} não pode estar vazio",
   "@empty_error": {
@@ -48,6 +49,7 @@
   "description_placeholder": "Fale um pouco sobre a receita...",
   "recipe_empty": "Nenhuma receita cadatrada",
   "favorite_empty": "Nenhuma receita favorita",
+  "search_empty": "Nenhuma receita encontrada",
   "minutes": "minutos",
   "difficulty": "Dificuldade",
   "rating": "Avaliação"

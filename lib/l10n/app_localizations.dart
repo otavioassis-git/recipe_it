@@ -152,6 +152,12 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get search;
 
+  /// Search something
+  ///
+  /// In en, this message translates to:
+  /// **'Search something'**
+  String get search_somethign;
+
   /// Add button title
   ///
   /// In en, this message translates to:
@@ -313,6 +319,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No favorites recipes'**
   String get favorite_empty;
+
+  /// Search empty message
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes found'**
+  String get search_empty;
 
   /// Minute label
   ///
