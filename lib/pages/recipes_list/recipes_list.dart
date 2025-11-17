@@ -37,12 +37,11 @@ class _RecipesListState extends State<RecipesList> {
               }).toList();
               categories.removeAt(0);
             }
-            if (panelExpansionControl.isNotEmpty) {
-              panelExpansionControl.clear();
+            if (panelExpansionControl.isEmpty) {
+              panelExpansionControl.addAll(
+                List.filled(categories.length, true, growable: false),
+              );
             }
-            panelExpansionControl.addAll(
-              List.filled(categories.length, true, growable: false),
-            );
             int index = -1;
             final categorizedRecipes = categories.map((category) {
               index++;
