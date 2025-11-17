@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/category_section.dart';
@@ -242,19 +241,13 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
       }
 
       Navigator.pop(context);
-      updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
     }
 
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.isEdit ? text.edit : text.add} ${text.recipe}'),
         centerTitle: true,
-        leading: CloseButton(
-          onPressed: () {
-            Navigator.pop(context);
-            updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
-          },
-        ),
+        leading: CloseButton(onPressed: () => Navigator.pop(context)),
       ),
       resizeToAvoidBottomInset: true,
       body: SafeArea(

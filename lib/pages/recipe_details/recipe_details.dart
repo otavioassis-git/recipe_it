@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/pages/recipe_details/widgets/details_section.dart';
@@ -25,12 +24,6 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       appBar: AppBar(
         title: Text(widget.recipe.name),
         centerTitle: true,
-        leading: BackButton(
-          onPressed: () {
-            Navigator.pop(context);
-            updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
-          },
-        ),
         actions: [
           IconButton(
             onPressed: () {

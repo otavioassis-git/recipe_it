@@ -24,10 +24,14 @@ class Home extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Search()),
-                ),
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Search()),
+                  );
+                  updateRecipesListNotifier.value =
+                      !updateRecipesListNotifier.value;
+                },
                 icon: const Icon(Icons.search),
                 tooltip: text.search,
               ),
@@ -36,10 +40,14 @@ class Home extends StatelessWidget {
           body: WidgetsTree(),
           floatingActionButton: FloatingActionButton(
             tooltip: '${text.add} ${text.recipe}',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddEditRecipe()),
-            ),
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddEditRecipe()),
+              );
+              updateRecipesListNotifier.value =
+                  !updateRecipesListNotifier.value;
+            },
             child: const Icon(Icons.add),
           ),
           bottomNavigationBar: NavigationBar(

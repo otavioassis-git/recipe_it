@@ -87,16 +87,17 @@ class _RecipeCardState extends State<RecipeCard> {
       );
     }
 
-    handleMenuSeleciton(String value) {
+    handleMenuSeleciton(String value) async {
       switch (value) {
         case 'edit':
-          Navigator.push(
+          await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) =>
                   AddEditRecipe(isEdit: true, recipe: widget.recipe),
             ),
           );
+          updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
           break;
         case 'delete':
           deleteRecipe();
@@ -105,13 +106,14 @@ class _RecipeCardState extends State<RecipeCard> {
     }
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => RecipeDetails(recipe: widget.recipe),
           ),
         );
+        updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
       },
       child: Card(
         margin: const EdgeInsets.all(0),
