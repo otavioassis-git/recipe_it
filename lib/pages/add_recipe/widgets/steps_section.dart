@@ -10,32 +10,74 @@ class StepsSection extends StatefulWidget {
   State<StepsSection> createState() => _StepsSectionState();
 }
 
+class StepFocusController {
+  int id = -1;
+  final FocusNode focusNode;
+  final VoidCallback listener;
+  bool isFocused = false;
+
+  static int autoincrementId = 0;
+
+  StepFocusController({required this.focusNode, required this.listener})
+    : super() {
+    id = autoincrementId;
+    StepFocusController.incrementId();
+    focusNode.addListener(listener);
+  }
+
+  static void incrementId() {
+    autoincrementId++;
+  }
+
+  static void resetId() {
+    autoincrementId = 0;
+  }
+
+  void removeListener() {
+    focusNode.removeListener(listener);
+  }
+
+  void dispose() {
+    focusNode.unfocus();
+    removeListener();
+    focusNode.dispose();
+  }
+}
+
 class _StepsSectionState extends State<StepsSection> {
-  final List<FocusNode> focusNodes = [];
-  final List<bool> isFocused = [];
   bool isKeyboardUp = false;
+
+  final List<StepFocusController> stepFocusControllers = [];
 
   @override
   void initState() {
-    focusNodes.add(FocusNode());
-    isFocused.add(false);
-    focusNodes[0].addListener(() => _onFocusChange(0));
+    StepFocusController.resetId();
+    int id = StepFocusController.autoincrementId;
+    stepFocusControllers.add(
+      StepFocusController(
+        focusNode: FocusNode(),
+        listener: () => _onFocusChange(id),
+      ),
+    );
     super.initState();
   }
 
   @override
   void dispose() {
-    for (int i = 0; i < focusNodes.length; i++) {
-      focusNodes[i].removeListener(() => _onFocusChange(i));
-      focusNodes[i].dispose();
+    for (int i = 0; i < stepFocusControllers.length; i++) {
+      stepFocusControllers[i].dispose();
     }
     super.dispose();
   }
 
-  void _onFocusChange(int index) {
+  void _onFocusChange(int id) {
     setState(() {
-      isFocused[index] = focusNodes[index].hasFocus;
-      isKeyboardUp = isFocused.any((e) => e);
+      final int index = stepFocusControllers.indexWhere(
+        (element) => element.id == id,
+      );
+      stepFocusControllers[index].isFocused =
+          stepFocusControllers[index].focusNode.hasFocus;
+      isKeyboardUp = stepFocusControllers.any((e) => e.isFocused);
     });
   }
 
@@ -53,17 +95,20 @@ class _StepsSectionState extends State<StepsSection> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  for (int i = 0; i < isFocused.length; i++) {
-                    isFocused[i] = false;
+                  for (int i = 0; i < stepFocusControllers.length; i++) {
+                    stepFocusControllers[i].focusNode.unfocus();
                   }
-                  isFocused.add(false);
-                  focusNodes.add(FocusNode());
-                  final lastIndex = focusNodes.length - 1;
-                  focusNodes[lastIndex].addListener(
-                    () => _onFocusChange(lastIndex),
+                  int id = StepFocusController.autoincrementId;
+                  stepFocusControllers.add(
+                    StepFocusController(
+                      focusNode: FocusNode(),
+                      listener: () => _onFocusChange(id),
+                    ),
                   );
                   widget.stepsControllers.add(TextEditingController());
-                  focusNodes[lastIndex].requestFocus();
+                  stepFocusControllers[stepFocusControllers.length - 1]
+                      .focusNode
+                      .requestFocus();
                 });
               },
               icon: Icon(Icons.add),
@@ -77,37 +122,41 @@ class _StepsSectionState extends State<StepsSection> {
             child: Column(
               spacing: 4,
               children: [
-                for (int i = 0; i < widget.stepsControllers.length; i++)
+                for (int i = 0; i < stepFocusControllers.length; i++)
                   Row(
                     children: [
                       Text('${i + 1}.', style: theme.textTheme.titleMedium),
                       const SizedBox(width: 8),
                       Expanded(
                         child: TextFormField(
-                          focusNode: focusNodes[i],
+                          focusNode: stepFocusControllers[i].focusNode,
                           controller: widget.stepsControllers[i],
                           maxLines: null,
                         ),
                       ),
-                      if (widget.stepsControllers.length > 1 || isKeyboardUp)
+                      if (stepFocusControllers.length > 1 || isKeyboardUp)
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              if (isFocused[i]) {
-                                focusNodes[i].unfocus();
+                              if (stepFocusControllers[i].isFocused) {
+                                stepFocusControllers[i].focusNode.unfocus();
                               } else {
-                                widget.stepsControllers.removeAt(i);
-                                focusNodes[i].removeListener(
-                                  () => _onFocusChange(i),
+                                widget.stepsControllers[i].dispose();
+                                widget.stepsControllers.remove(
+                                  widget.stepsControllers[i],
                                 );
-                                focusNodes[i].dispose();
-                                focusNodes.removeAt(i);
-                                isFocused.removeAt(i);
-                                focusNodes[i == 0 ? i : i - 1].requestFocus();
+                                stepFocusControllers[i].dispose();
+                                stepFocusControllers.remove(
+                                  stepFocusControllers[i],
+                                );
                               }
                             });
                           },
-                          icon: Icon(isFocused[i] ? Icons.check : Icons.delete),
+                          icon: Icon(
+                            stepFocusControllers[i].isFocused
+                                ? Icons.check
+                                : Icons.delete,
+                          ),
                         ),
                     ],
                   ),

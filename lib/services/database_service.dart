@@ -146,7 +146,7 @@ class DatabaseService {
     final Database db = await database;
     await db.update(
       _recipesTable,
-      {'$_recipesIsFavorite': isFavorite ? 1 : 0},
+      {_recipesIsFavorite: isFavorite ? 1 : 0},
       where: '$_recipesId = ?',
       whereArgs: [id],
     );
