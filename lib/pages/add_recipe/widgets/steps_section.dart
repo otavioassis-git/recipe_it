@@ -52,13 +52,15 @@ class _StepsSectionState extends State<StepsSection> {
   @override
   void initState() {
     StepFocusController.resetId();
-    int id = StepFocusController.autoincrementId;
-    stepFocusControllers.add(
-      StepFocusController(
-        focusNode: FocusNode(),
-        listener: () => _onFocusChange(id),
-      ),
-    );
+    for (int i = 0; i < widget.stepsControllers.length; i++) {
+      int id = StepFocusController.autoincrementId;
+      stepFocusControllers.add(
+        StepFocusController(
+          focusNode: FocusNode(),
+          listener: () => _onFocusChange(id),
+        ),
+      );
+    }
     super.initState();
   }
 

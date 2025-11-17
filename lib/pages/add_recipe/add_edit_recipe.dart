@@ -12,14 +12,17 @@ import 'package:recipe_it/pages/add_recipe/widgets/prep_time_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/steps_section.dart';
 import 'package:recipe_it/services/database_service.dart';
 
-class AddRecipe extends StatefulWidget {
-  const AddRecipe({super.key});
+class AddEditRecipe extends StatefulWidget {
+  const AddEditRecipe({super.key, this.isEdit = false, this.recipe});
+
+  final bool isEdit;
+  final Recipe? recipe;
 
   @override
-  State<AddRecipe> createState() => _AddRecipeState();
+  State<AddEditRecipe> createState() => _AddEditRecipeState();
 }
 
-class _AddRecipeState extends State<AddRecipe> {
+class _AddEditRecipeState extends State<AddEditRecipe> {
   final DatabaseService databaseService = DatabaseService.instance;
   late TextEditingController nameController;
   late TextEditingController descriptionController;
@@ -43,10 +46,28 @@ class _AddRecipeState extends State<AddRecipe> {
   }
 
   void _initControllers() {
-    nameController = TextEditingController();
-    descriptionController = TextEditingController();
-    ingredientsControllers.add(TextEditingController());
-    stepsControllers.add(TextEditingController());
+    nameController = TextEditingController(text: widget.recipe?.name);
+    descriptionController = TextEditingController(
+      text: widget.recipe?.description,
+    );
+    if (!widget.isEdit) {
+      ingredientsControllers.add(TextEditingController());
+      stepsControllers.add(TextEditingController());
+    } else {
+      List<String> ingredients = widget.recipe!.ingredients.split(';');
+      List<String> steps = widget.recipe!.steps.split(';');
+      for (String ingredient in ingredients) {
+        ingredientsControllers.add(TextEditingController(text: ingredient));
+      }
+      for (String step in steps) {
+        stepsControllers.add(TextEditingController(text: step));
+      }
+      prepTimeController.text = widget.recipe!.prepTime.toString();
+      cookTimeController.text = widget.recipe!.cookTime.toString();
+      categoryIds.add(widget.recipe!.categoryId);
+      rating.add(widget.recipe!.difficulty);
+      rating.add(widget.recipe!.rating);
+    }
     rating.add(0);
     rating.add(0);
   }
@@ -66,7 +87,7 @@ class _AddRecipeState extends State<AddRecipe> {
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
 
-    void createRecipe() {
+    void submitRecipe() async {
       final name = nameController.text;
       final description = descriptionController.text;
       final ingredients = ingredientsControllers
@@ -186,20 +207,38 @@ class _AddRecipeState extends State<AddRecipe> {
         return;
       }
 
-      databaseService.insertRecipe(
-        Recipe(
-          name: name,
-          description: description,
-          ingredients: ingredients.join(';'),
-          steps: steps.join(';'),
-          categoryId: categoryIds.isNotEmpty ? categoryIds[0] : null,
-          prepTime: prepTime!,
-          cookTime: cookTime!,
-          totalTime: prepTime + cookTime,
-          difficulty: difficulty,
-          rating: score,
-        ),
-      );
+      if (widget.isEdit) {
+        await databaseService.updateRecipe(
+          Recipe(
+            id: widget.recipe!.id,
+            name: name,
+            description: description,
+            ingredients: ingredients.join(';'),
+            steps: steps.join(';'),
+            categoryId: categoryIds.isNotEmpty ? categoryIds[0] : null,
+            prepTime: prepTime!,
+            cookTime: cookTime!,
+            totalTime: prepTime + cookTime,
+            difficulty: difficulty,
+            rating: score,
+          ),
+        );
+      } else {
+        await databaseService.insertRecipe(
+          Recipe(
+            name: name,
+            description: description,
+            ingredients: ingredients.join(';'),
+            steps: steps.join(';'),
+            categoryId: categoryIds.isNotEmpty ? categoryIds[0] : null,
+            prepTime: prepTime!,
+            cookTime: cookTime!,
+            totalTime: prepTime + cookTime,
+            difficulty: difficulty,
+            rating: score,
+          ),
+        );
+      }
 
       Navigator.pop(context);
       updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
@@ -207,7 +246,7 @@ class _AddRecipeState extends State<AddRecipe> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${text.add} ${text.recipe}'),
+        title: Text('${widget.isEdit ? text.edit : text.add} ${text.recipe}'),
         centerTitle: true,
         leading: CloseButton(
           onPressed: () {
@@ -235,7 +274,7 @@ class _AddRecipeState extends State<AddRecipe> {
                 StepsSection(stepsControllers: stepsControllers),
                 PrepTimeSection(prepTimeController: prepTimeController),
                 CookTimeSection(cookTimeController: cookTimeController),
-                RatingSection(difficulty: rating),
+                RatingSection(rating: rating),
                 SizedBox(height: 16),
               ],
             ),
@@ -246,8 +285,8 @@ class _AddRecipeState extends State<AddRecipe> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: FilledButton(
-            onPressed: createRecipe,
-            child: Text(text.create),
+            onPressed: submitRecipe,
+            child: Text(widget.isEdit ? text.edit : text.create),
           ),
         ),
       ),

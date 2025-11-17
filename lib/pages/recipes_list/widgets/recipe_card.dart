@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/recipe_model.dart';
+import 'package:recipe_it/pages/add_recipe/add_edit_recipe.dart';
 import 'package:recipe_it/pages/recipe_details/recipe_details.dart';
 import 'package:recipe_it/services/database_service.dart';
 
@@ -89,6 +90,13 @@ class _RecipeCardState extends State<RecipeCard> {
     handleMenuSeleciton(String value) {
       switch (value) {
         case 'edit':
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  AddEditRecipe(isEdit: true, recipe: widget.recipe),
+            ),
+          );
           break;
         case 'delete':
           deleteRecipe();
@@ -165,13 +173,13 @@ class _RecipeCardState extends State<RecipeCard> {
                   onSelected: (value) => handleMenuSeleciton(value),
                   itemBuilder: (BuildContext context) =>
                       <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
+                        PopupMenuItem<String>(
                           value: 'edit',
-                          child: Text('Edit'),
+                          child: Text(text.edit),
                         ),
-                        const PopupMenuItem<String>(
+                        PopupMenuItem<String>(
                           value: 'delete',
-                          child: Text('Delete'),
+                          child: Text(text.delete),
                         ),
                       ],
                 ),

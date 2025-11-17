@@ -94,7 +94,7 @@
   "@category_info_1": {
     "description": "Recipe category info message"
   },
-  "category_info_2": "You can add a category later.",
+  "category_info_2": "You can edit the recipe and add a category later.",
   "@category_info_2": {
     "description": "Recipe category info message"
   },
@@ -131,6 +131,10 @@
   "delete": "Delete",
   "@delete": {
     "description": "Delete button title"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button title"
   },
   "category_empty": "No categories registered",
   "@category_empty": {

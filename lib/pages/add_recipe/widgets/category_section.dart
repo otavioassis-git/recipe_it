@@ -32,6 +32,7 @@ class CategorySectionState extends State<CategorySection> {
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    List<Category> categories = [];
 
     return Column(
       children: [
@@ -112,7 +113,10 @@ class CategorySectionState extends State<CategorySection> {
                           spacing: 8,
                           children: [
                             TextButton(
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                nameController.text = '';
+                              },
                               child: Text(text.cancel),
                             ),
                             FilledButton(
@@ -126,9 +130,17 @@ class CategorySectionState extends State<CategorySection> {
                                         widget.categoryIds.removeAt(0);
                                       }
                                       widget.categoryIds.add(categoryId);
+                                      categories.add(
+                                        Category(
+                                          id: categoryId,
+                                          name: nameController.text,
+                                        ),
+                                      );
                                     });
                                 Navigator.pop(context);
-                                setState(() {});
+                                setState(() {
+                                  nameController.text = '';
+                                });
                               },
                               child: Text(text.add),
                             ),
@@ -151,7 +163,7 @@ class CategorySectionState extends State<CategorySection> {
               future: databaseService.getAllCategories(),
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  final categories = snapshot.data as List<Category>;
+                  categories = snapshot.data as List<Category>;
                   return DropdownButton(
                     isExpanded: true,
                     value: widget.categoryIds.isNotEmpty
@@ -245,21 +257,23 @@ class CategorySectionState extends State<CategorySection> {
                                                 ),
                                                 SizedBox(width: 8),
                                                 FilledButton(
-                                                  onPressed: () {
+                                                  onPressed: () async {
                                                     databaseService
-                                                        .deleteCategory(e.id!)
-                                                        .then((categoryId) {
-                                                          setState(() {
-                                                            if (widget
-                                                                    .categoryIds
-                                                                    .isNotEmpty &&
-                                                                widget.categoryIds[0] ==
-                                                                    categoryId) {
-                                                              widget.categoryIds
-                                                                  .removeAt(0);
-                                                            }
-                                                          });
-                                                        });
+                                                        .deleteCategory(e.id!);
+                                                    categories.removeWhere(
+                                                      (element) =>
+                                                          element.id == e.id,
+                                                    );
+                                                    setState(() {
+                                                      if (widget
+                                                              .categoryIds
+                                                              .isNotEmpty &&
+                                                          widget.categoryIds[0] ==
+                                                              e.id!) {
+                                                        widget.categoryIds
+                                                            .clear();
+                                                      }
+                                                    });
                                                     Navigator.pop(context);
                                                   },
                                                   child: Text(text.delete),

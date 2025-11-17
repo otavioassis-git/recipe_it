@@ -15,7 +15,9 @@ class _IngredientsSectionState extends State<IngredientsSection> {
 
   @override
   void initState() {
-    focusNodes.add(FocusNode());
+    for (int i = 0; i < widget.ingredientsControllers.length; i++) {
+      focusNodes.add(FocusNode());
+    }
     super.initState();
   }
 

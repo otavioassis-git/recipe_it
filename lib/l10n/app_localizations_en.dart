@@ -78,7 +78,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'If you don\'t add a category, the recipe will be added to the \"Uncategorized\" category.';
 
   @override
-  String get category_info_2 => 'You can add a category later.';
+  String get category_info_2 =>
+      'You can edit the recipe and add a category later.';
 
   @override
   String get close => 'Close';
@@ -103,6 +104,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get edit => 'Edit';
 
   @override
   String get category_empty => 'No categories registered';
