@@ -1,6 +1,7 @@
 import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/pages/add_recipe/add_edit_recipe.dart';
+import 'package:recipe_it/pages/search/search.dart';
 import 'package:recipe_it/pages/settings/settings.dart';
 import 'package:recipe_it/pages/widgets_tree/widgets_tree.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +24,10 @@ class Home extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                onPressed: () {
-                  print("search button pressed");
-                },
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Search()),
+                ),
                 icon: const Icon(Icons.search),
                 tooltip: text.search,
               ),
