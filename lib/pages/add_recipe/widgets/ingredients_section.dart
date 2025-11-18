@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
-import 'package:sticky_headers/sticky_headers.dart';
+import 'package:recipe_it/widgets/custom_sticky_header_content.dart';
 
 class IngredientsSection extends StatefulWidget {
   const IngredientsSection({super.key, required this.ingredientsControllers});
@@ -33,65 +33,53 @@ class _IngredientsSectionState extends State<IngredientsSection> {
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
-    return StickyHeader(
-      header: Container(
-        color: theme.colorScheme.surface,
+    void addIngredient() {
+      setState(() {
+        widget.ingredientsControllers.add(TextEditingController());
+        focusNodes.add(FocusNode());
+        focusNodes[focusNodes.length - 1].requestFocus();
+      });
+    }
+
+    void removeIngredient(int index) {
+      setState(() {
+        widget.ingredientsControllers.removeAt(index);
+        focusNodes[index].dispose();
+        focusNodes.removeAt(index);
+        focusNodes[index == 0 ? index : index - 1].requestFocus();
+      });
+    }
+
+    return CustomStickyHeaderContent(
+      title: text.ingredients,
+      showAction: true,
+      actionFunction: addIngredient,
+      actionIcon: Icon(Icons.add),
+      content: Card(
+        margin: const EdgeInsets.all(0),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            spacing: 4,
             children: [
-              Text(text.ingredients),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    widget.ingredientsControllers.add(TextEditingController());
-                    focusNodes.add(FocusNode());
-                    focusNodes[focusNodes.length - 1].requestFocus();
-                  });
-                },
-                icon: Icon(Icons.add),
-              ),
-            ],
-          ),
-        ),
-      ),
-      content: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Card(
-          margin: const EdgeInsets.all(0),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              spacing: 4,
-              children: [
-                for (int i = 0; i < widget.ingredientsControllers.length; i++)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: widget.ingredientsControllers[i],
-                          focusNode: focusNodes[i],
-                        ),
+              for (int i = 0; i < widget.ingredientsControllers.length; i++)
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: widget.ingredientsControllers[i],
+                        focusNode: focusNodes[i],
                       ),
-                      if (widget.ingredientsControllers.length > 1)
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              widget.ingredientsControllers.removeAt(i);
-                              focusNodes[i].dispose();
-                              focusNodes.removeAt(i);
-                              focusNodes[i == 0 ? i : i - 1].requestFocus();
-                            });
-                          },
-                          icon: Icon(Icons.delete),
-                        ),
-                    ],
-                  ),
-              ],
-            ),
+                    ),
+                    if (widget.ingredientsControllers.length > 1)
+                      IconButton(
+                        onPressed: () => removeIngredient(i),
+                        icon: Icon(Icons.delete),
+                      ),
+                  ],
+                ),
+            ],
           ),
         ),
       ),

@@ -64,12 +64,12 @@ class Home extends StatelessWidget {
             selectedIndex: currentPage,
             destinations: [
               NavigationDestination(
-                icon: const Icon(Icons.home),
+                icon: const Icon(Icons.home_outlined),
                 label: text.home,
                 selectedIcon: const Icon(Icons.home),
               ),
               NavigationDestination(
-                icon: const Icon(Icons.favorite_border),
+                icon: const Icon(Icons.favorite_outline),
                 label: text.favorites,
                 selectedIcon: const Icon(Icons.favorite),
               ),

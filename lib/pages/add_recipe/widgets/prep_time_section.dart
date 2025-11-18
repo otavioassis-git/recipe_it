@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
+import 'package:recipe_it/widgets/custom_sticky_header_content.dart';
 
 class PrepTimeSection extends StatefulWidget {
   const PrepTimeSection({super.key, required this.prepTimeController});
@@ -15,33 +16,30 @@ class _PrepTimeSectionState extends State<PrepTimeSection> {
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(children: [Text(text.prep_time), SizedBox(height: 48)]),
-        Card(
-          margin: const EdgeInsets.all(0),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              spacing: 8,
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: widget.prepTimeController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      hintText: text.prep_time,
-                      border: OutlineInputBorder(),
-                    ),
+    return CustomStickyHeaderContent(
+      title: text.prep_time,
+      content: Card(
+        margin: const EdgeInsets.all(0),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            spacing: 8,
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: widget.prepTimeController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: text.prep_time,
+                    border: OutlineInputBorder(),
                   ),
                 ),
-                Text(text.minutes),
-              ],
-            ),
+              ),
+              Text(text.minutes),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

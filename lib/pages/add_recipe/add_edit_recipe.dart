@@ -216,21 +216,9 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
                           ingredientsControllers: ingredientsControllers,
                         ),
                         StepsSection(stepsControllers: stepsControllers),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Column(
-                            spacing: 4,
-                            children: [
-                              PrepTimeSection(
-                                prepTimeController: prepTimeController,
-                              ),
-                              CookTimeSection(
-                                cookTimeController: cookTimeController,
-                              ),
-                              RatingSection(rating: rating),
-                            ],
-                          ),
-                        ),
+                        PrepTimeSection(prepTimeController: prepTimeController),
+                        CookTimeSection(cookTimeController: cookTimeController),
+                        RatingSection(rating: rating),
                         SizedBox(height: 56),
                       ],
                     ),

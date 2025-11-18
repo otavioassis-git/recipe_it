@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/category_model.dart';
 import 'package:recipe_it/services/database_service.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
+import 'package:recipe_it/widgets/custom_sticky_header_content.dart';
 
 class CategorySection extends StatefulWidget {
   const CategorySection({super.key, required this.categoryIds});
@@ -35,38 +35,7 @@ class CategorySectionState extends State<CategorySection> {
     final theme = Theme.of(context);
     List<Category> categories = [];
 
-    showInfoDialog() {
-      showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 16,
-              children: [
-                Text('Info', style: theme.textTheme.headlineSmall),
-                Text(text.category_info_1),
-                Text(text.category_info_2),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(text.close),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    addCategory() {
+    void addCategory() {
       showDialog(
         context: context,
         builder: (context) => Dialog(
@@ -133,7 +102,7 @@ class CategorySectionState extends State<CategorySection> {
       );
     }
 
-    deleteCategory(Category category) {
+    void deleteCategory(Category category) {
       showDialog(
         context: context,
         builder: (context) => Dialog(
@@ -203,69 +172,28 @@ class CategorySectionState extends State<CategorySection> {
       );
     }
 
-    return StickyHeader(
-      header: Container(
-        color: theme.colorScheme.surface,
+    return CustomStickyHeaderContent(
+      title: text.category,
+      infoText: [text.category_info_1, text.category_info_2],
+      showAction: true,
+      actionFunction: addCategory,
+      actionIcon: Icon(Icons.add),
+      content: Card(
+        margin: const EdgeInsets.all(0),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                spacing: 8,
-                children: [
-                  Text(text.category),
-                  SizedBox(
-                    height: 16,
-                    width: 16,
-                    child: IconButton(
-                      iconSize: 18,
-                      padding: EdgeInsets.all(0),
-                      onPressed: () => showInfoDialog(),
-                      icon: Icon(Icons.info_outline),
-                    ),
-                  ),
-                ],
-              ),
-              IconButton(
-                onPressed: () => addCategory(),
-                icon: const Icon(Icons.add),
-              ),
-            ],
-          ),
-        ),
-      ),
-      content: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Card(
-          margin: const EdgeInsets.all(0),
-          child: Padding(
-            padding: EdgeInsets.all(12.0),
-            child: FutureBuilder(
-              future: databaseService.getAllCategories(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  categories = snapshot.data as List<Category>;
-                  return DropdownButton(
-                    isExpanded: true,
-                    value: widget.categoryIds.isNotEmpty
-                        ? widget.categoryIds[0]
-                        : null,
-                    selectedItemBuilder: (context) {
-                      return [
-                        DropdownMenuItem(
-                          value: null,
-                          child: Text(text.no_category),
-                        ),
-                        ...categories.map((e) {
-                          return DropdownMenuItem(
-                            value: e.id,
-                            child: Text(e.name),
-                          );
-                        }),
-                      ];
-                    },
-                    items: [
+          padding: EdgeInsets.all(12.0),
+          child: FutureBuilder(
+            future: databaseService.getAllCategories(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                categories = snapshot.data as List<Category>;
+                return DropdownButton(
+                  isExpanded: true,
+                  value: widget.categoryIds.isNotEmpty
+                      ? widget.categoryIds[0]
+                      : null,
+                  selectedItemBuilder: (context) {
+                    return [
                       DropdownMenuItem(
                         value: null,
                         child: Text(text.no_category),
@@ -273,40 +201,52 @@ class CategorySectionState extends State<CategorySection> {
                       ...categories.map((e) {
                         return DropdownMenuItem(
                           value: e.id,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(e.name),
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  deleteCategory(e);
-                                },
-                                icon: Icon(Icons.delete),
-                              ),
-                            ],
-                          ),
+                          child: Text(e.name),
                         );
                       }),
-                    ].toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        if (widget.categoryIds.isNotEmpty) {
-                          widget.categoryIds.clear();
-                        }
-                        widget.categoryIds.add(value);
-                      });
-                    },
-                  );
-                } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: Text(text.category_empty),
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
+                    ];
+                  },
+                  items: [
+                    DropdownMenuItem(
+                      value: null,
+                      child: Text(text.no_category),
+                    ),
+                    ...categories.map((e) {
+                      return DropdownMenuItem(
+                        value: e.id,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(e.name),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                deleteCategory(e);
+                              },
+                              icon: Icon(Icons.delete),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ].toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      if (widget.categoryIds.isNotEmpty) {
+                        widget.categoryIds.clear();
+                      }
+                      widget.categoryIds.add(value);
+                    });
+                  },
+                );
+              } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: Text(text.category_empty),
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
           ),
         ),
       ),
