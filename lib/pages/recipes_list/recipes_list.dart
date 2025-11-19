@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/category_recipe_model.dart';
-import 'package:recipe_it/pages/recipes_list/widgets/recipe_card.dart';
+import 'package:recipe_it/pages/recipes_list/widgets/padded_recipe_card.dart';
 import 'package:recipe_it/services/database_service.dart';
 
 class RecipesList extends StatefulWidget {
@@ -17,6 +17,47 @@ class RecipesList extends StatefulWidget {
 class _RecipesListState extends State<RecipesList> {
   final DatabaseService databaseService = DatabaseService.instance;
 
+  List<Widget> buildUncategorizedRecipes(
+    List<CategoryRecipe> categoriesRecipes,
+  ) {
+    List<Widget> uncategorizedRecipes = [];
+    int uncategorizedIndex = categoriesRecipes.indexWhere(
+      (element) => element.categoryId == null,
+    );
+    if (uncategorizedIndex >= 0) {
+      uncategorizedRecipes = categoriesRecipes[uncategorizedIndex].recipes.map((
+        recipe,
+      ) {
+        return PaddedRecipeCard(recipe: recipe);
+      }).toList();
+      categoriesRecipes.removeWhere((element) => element.categoryId == null);
+    }
+    return uncategorizedRecipes;
+  }
+
+  List<Widget> buildCategorizedRecipes(List<CategoryRecipe> categoriesRecipes) {
+    return categoriesRecipes.map((category) {
+      return ExpansionTile(
+        clipBehavior: Clip.none,
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
+        title: Text(category.categoryName!),
+        initiallyExpanded: categoriesRecipes.length <= 5,
+        children: [
+          Column(
+            spacing: 8.0,
+            children: [
+              SizedBox(),
+              ...category.recipes.map((recipe) {
+                return PaddedRecipeCard(recipe: recipe);
+              }),
+            ],
+          ),
+        ],
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final text = AppLocalizations.of(context)!;
@@ -29,51 +70,17 @@ class _RecipesListState extends State<RecipesList> {
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final categories = snapshot.data as List<CategoryRecipe>;
 
-            List<Widget> uncategorizedRecipes = [];
-            if (categories[0].categoryId == null) {
-              uncategorizedRecipes = categories[0].recipes.map((recipe) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 2.0,
-                  ),
-                  child: RecipeCard(recipe: recipe),
-                );
-              }).toList();
-              categories.removeAt(0);
-            }
+            List<Widget> uncategorizedRecipes = buildUncategorizedRecipes(
+              categories,
+            );
 
-            final categorizedRecipes = categories.map((category) {
-              return ExpansionTile(
-                clipBehavior: Clip.none,
-                shape: const RoundedRectangleBorder(side: BorderSide.none),
-                collapsedShape: const RoundedRectangleBorder(
-                  side: BorderSide.none,
-                ),
-                title: Text(category.categoryName!),
-                initiallyExpanded: categories.length <= 5,
-                children: [
-                  Column(
-                    spacing: 8,
-                    children: [
-                      SizedBox(),
-                      ...category.recipes.map((recipe) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                            vertical: 2.0,
-                          ),
-                          child: RecipeCard(recipe: recipe),
-                        );
-                      }),
-                    ],
-                  ),
-                ],
-              );
-            });
+            List<Widget> categorizedRecipes = buildCategorizedRecipes(
+              categories,
+            );
+
             return SingleChildScrollView(
               child: Column(
-                spacing: 6,
+                spacing: 6.0,
                 children: [
                   ...uncategorizedRecipes,
                   ...categorizedRecipes,

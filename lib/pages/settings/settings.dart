@@ -17,13 +17,11 @@ class Settings extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [AppearanceSetting()],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          spacing: 4,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [AppearanceSetting()],
         ),
       ),
     );

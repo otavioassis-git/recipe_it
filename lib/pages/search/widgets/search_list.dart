@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_it/data/notifiers.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/recipe_model.dart';
-import 'package:recipe_it/pages/recipes_list/widgets/recipe_card.dart';
+import 'package:recipe_it/widgets/recipe_card.dart';
 import 'package:recipe_it/services/database_service.dart';
 
 class SearchList extends StatefulWidget {

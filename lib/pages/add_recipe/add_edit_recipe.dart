@@ -10,6 +10,7 @@ import 'package:recipe_it/pages/add_recipe/widgets/name_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/prep_time_section.dart';
 import 'package:recipe_it/pages/add_recipe/widgets/steps_section.dart';
 import 'package:recipe_it/services/database_service.dart';
+import 'package:recipe_it/widgets/snackbars/error_snackbar.dart';
 
 class AddEditRecipe extends StatefulWidget {
   const AddEditRecipe({super.key, this.isEdit = false, this.recipe});
@@ -106,102 +107,42 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
 
       if (name.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            content: Row(
-              children: [
-                Icon(Icons.error),
-                SizedBox(width: 4),
-                Text(text.empty_error(text.name)),
-              ],
-            ),
-          ),
+          ErrorSnackbar(text: text.empty_error(text.name)) as SnackBar,
         );
         return;
       }
 
       if (description.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            content: Row(
-              children: [
-                Icon(Icons.error),
-                SizedBox(width: 4),
-                Text(text.empty_error(text.description)),
-              ],
-            ),
-          ),
+          ErrorSnackbar(text: text.empty_error(text.description)) as SnackBar,
         );
         return;
       }
 
       if (ingredients.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            content: Row(
-              children: [
-                Icon(Icons.error),
-                SizedBox(width: 4),
-                Text(text.empty_error(text.ingredients)),
-              ],
-            ),
-          ),
+          ErrorSnackbar(text: text.empty_error(text.ingredients)) as SnackBar,
         );
         return;
       }
 
       if (steps.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            content: Row(
-              children: [
-                Icon(Icons.error),
-                SizedBox(width: 4),
-                Text(text.empty_error(text.steps)),
-              ],
-            ),
-          ),
+          ErrorSnackbar(text: text.empty_error(text.steps)) as SnackBar,
         );
         return;
       }
 
       if (prepTimeController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            content: Row(
-              children: [
-                Icon(Icons.error),
-                SizedBox(width: 4),
-                Text(text.empty_error(text.prep_time)),
-              ],
-            ),
-          ),
+          ErrorSnackbar(text: text.empty_error(text.prep_time)) as SnackBar,
         );
         return;
       }
 
       if (cookTimeController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            content: Row(
-              children: [
-                Icon(Icons.error),
-                SizedBox(width: 4),
-                Text(text.empty_error(text.cook_time)),
-              ],
-            ),
-          ),
+          ErrorSnackbar(text: text.empty_error(text.cook_time)) as SnackBar,
         );
         return;
       }
@@ -264,39 +205,21 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
+                      spacing: 4,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          spacing: 4,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            DescriptionSection(
-                              descriptionController: descriptionController,
-                            ),
-                            CategorySection(categoryIds: categoryIds),
-                            IngredientsSection(
-                              ingredientsControllers: ingredientsControllers,
-                            ),
-                            StepsSection(stepsControllers: stepsControllers),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                              ),
-                              child: Column(
-                                spacing: 4,
-                                children: [
-                                  PrepTimeSection(
-                                    prepTimeController: prepTimeController,
-                                  ),
-                                  CookTimeSection(
-                                    cookTimeController: cookTimeController,
-                                  ),
-                                  RatingSection(rating: rating),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 56),
-                          ],
+                        DescriptionSection(
+                          descriptionController: descriptionController,
                         ),
+                        CategorySection(categoryIds: categoryIds),
+                        IngredientsSection(
+                          ingredientsControllers: ingredientsControllers,
+                        ),
+                        StepsSection(stepsControllers: stepsControllers),
+                        PrepTimeSection(prepTimeController: prepTimeController),
+                        CookTimeSection(cookTimeController: cookTimeController),
+                        RatingSection(rating: rating),
+                        SizedBox(height: 56),
                       ],
                     ),
                   ),
