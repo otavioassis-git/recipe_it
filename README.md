@@ -4,14 +4,14 @@ A beautiful and functional recipe mobile app built with Flutter. This project wa
 
 ## 📝 About The Project
 
-Recipe It is a mobile application for discovering, saving, and organizing your favorite recipes. Whether you're a seasoned chef or just starting out, this app makes it easy to find inspiration and manage your cooking plans.
+Recipe It is a mobile application for saving and organizing your favorite recipes. Whether you're a seasoned chef or just starting out, this app makes it easy to find inspiration and manage your cooking plans.
 
 This app was built from the ground up using Flutter, focusing on a clean UI, smooth animations, and a user-friendly experience.
 
 ## ✨ Key Features
 
-- Browse Recipes: Discover new recipes from a vast collection.
-- Search & Filter: Easily find specific recipes by ingredients, name, or category.
+- Save Recipes: Maintain a list of your Recipes in a organized environment.
+- Search & Filter: Easily find specific recipes by name or category.
 - Favorites: Save your favorite recipes for quick access later.
 - Recipe Details: View detailed instructions, ingredient lists, and cooking times.
 - Responsive Design: A single codebase that looks and feels native on both iOS and Android.
@@ -66,6 +66,6 @@ Distributed under the MIT License. See LICENSE.txt for more information.
 
 Otávio Fava Souza de Assis - otavio.assis@hotmail.com
 
-Project Link: [https://github.com/otavioassis-git/ace-links](https://github.com/otavioassis-git/ace-links)
+Project Link: [https://github.com/otavioassis-git/recipe_it](https://github.com/otavioassis-git/recipe_it)
 
 LinkedIn: [https://linkedin.com/in/otavio-assis](https://www.linkedin.com/in/otavio-assis/)
