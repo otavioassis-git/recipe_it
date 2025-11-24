@@ -106,44 +106,44 @@ class _AddEditRecipeState extends State<AddEditRecipe> {
       final score = rating[1];
 
       if (name.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          ErrorSnackbar(text: text.empty_error(text.name)) as SnackBar,
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(ErrorSnackbar(text: text.empty_error(text.name)));
         return;
       }
 
       if (description.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          ErrorSnackbar(text: text.empty_error(text.description)) as SnackBar,
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(ErrorSnackbar(text: text.empty_error(text.description)));
         return;
       }
 
       if (ingredients.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          ErrorSnackbar(text: text.empty_error(text.ingredients)) as SnackBar,
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(ErrorSnackbar(text: text.empty_error(text.ingredients)));
         return;
       }
 
       if (steps.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          ErrorSnackbar(text: text.empty_error(text.steps)) as SnackBar,
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(ErrorSnackbar(text: text.empty_error(text.steps)));
         return;
       }
 
       if (prepTimeController.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          ErrorSnackbar(text: text.empty_error(text.prep_time)) as SnackBar,
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(ErrorSnackbar(text: text.empty_error(text.prep_time)));
         return;
       }
 
       if (cookTimeController.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          ErrorSnackbar(text: text.empty_error(text.cook_time)) as SnackBar,
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(ErrorSnackbar(text: text.empty_error(text.cook_time)));
         return;
       }
 

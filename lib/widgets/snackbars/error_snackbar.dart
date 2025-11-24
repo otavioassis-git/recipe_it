@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
-class ErrorSnackbar extends StatelessWidget {
-  const ErrorSnackbar({super.key, required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return SnackBar(
-      backgroundColor: Colors.redAccent,
-      behavior: SnackBarBehavior.floating,
-      content: Row(
-        children: [Icon(Icons.error), SizedBox(width: 4), Text(text)],
-      ),
-    );
-  }
+class ErrorSnackbar extends SnackBar {
+  ErrorSnackbar({super.key, required String text})
+    : super(
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(10),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        content: Row(
+          children: [
+            const Icon(Icons.error, color: Colors.white),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(text, style: const TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
+      );
 }

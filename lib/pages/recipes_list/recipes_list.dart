@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/data/notifiers.dart';
+import 'package:recipe_it/dialogs/add_edit_category.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
+import 'package:recipe_it/models/category_model.dart';
 import 'package:recipe_it/models/category_recipe_model.dart';
 import 'package:recipe_it/pages/recipes_list/widgets/padded_recipe_card.dart';
 import 'package:recipe_it/services/database_service.dart';
@@ -38,16 +40,35 @@ class _RecipesListState extends State<RecipesList> {
   List<Widget> buildCategorizedRecipes(List<CategoryRecipe> categoriesRecipes) {
     final text = AppLocalizations.of(context)!;
 
+    void editCategory(Category category) async {
+      final String? newCategoryName = await showAddEditCategoryDialog(
+        context,
+        true,
+        category.name,
+      );
+
+      if (newCategoryName != null) {
+        await databaseService.updateCategory(
+          Category(id: category.id, name: newCategoryName),
+        );
+
+        setState(() {
+          updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
+        });
+      }
+    }
+
     handleCategoryMenuSeleciton(String value) {
       final type = value.split('-')[0];
       final categoryId = int.parse(value.split('-')[1]);
+      final categoryName = value.split('-')[2];
 
       switch (type) {
         case 'edit':
-          print('edit-${categoryId}');
+          editCategory(Category(id: categoryId, name: categoryName));
           break;
         case 'delete':
-          print('delete-${categoryId}');
+          print('delete-$categoryId');
           break;
       }
     }
@@ -69,11 +90,11 @@ class _RecipesListState extends State<RecipesList> {
             onSelected: (value) => handleCategoryMenuSeleciton(value),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
-                value: 'edit-${category.categoryId}',
+                value: 'edit-${category.categoryId}-${category.categoryName}',
                 child: Text(text.edit),
               ),
               PopupMenuItem<String>(
-                value: 'delete-${category.categoryId}',
+                value: 'delete-${category.categoryId}-${category.categoryName}',
                 child: Text(text.delete),
               ),
             ],
