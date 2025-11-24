@@ -36,6 +36,22 @@ class _RecipesListState extends State<RecipesList> {
   }
 
   List<Widget> buildCategorizedRecipes(List<CategoryRecipe> categoriesRecipes) {
+    final text = AppLocalizations.of(context)!;
+
+    handleCategoryMenuSeleciton(String value) {
+      final type = value.split('-')[0];
+      final categoryId = int.parse(value.split('-')[1]);
+
+      switch (type) {
+        case 'edit':
+          print('edit-${categoryId}');
+          break;
+        case 'delete':
+          print('delete-${categoryId}');
+          break;
+      }
+    }
+
     return categoriesRecipes.map((category) {
       return ExpansionTile(
         clipBehavior: Clip.none,
@@ -43,6 +59,26 @@ class _RecipesListState extends State<RecipesList> {
         collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         title: Text(category.categoryName!),
         initiallyExpanded: categoriesRecipes.length <= 5,
+        trailing: SizedBox(
+          height: 24,
+          width: 24,
+          child: PopupMenuButton(
+            icon: const Icon(Icons.more_vert),
+            iconSize: 18,
+            padding: EdgeInsets.zero,
+            onSelected: (value) => handleCategoryMenuSeleciton(value),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              PopupMenuItem<String>(
+                value: 'edit-${category.categoryId}',
+                child: Text(text.edit),
+              ),
+              PopupMenuItem<String>(
+                value: 'delete-${category.categoryId}',
+                child: Text(text.delete),
+              ),
+            ],
+          ),
+        ),
         children: [
           Column(
             spacing: 8.0,

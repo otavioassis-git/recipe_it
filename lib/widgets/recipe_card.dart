@@ -87,17 +87,21 @@ class _RecipeCardState extends State<RecipeCard> {
       );
     }
 
+    editRecipe() async {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              AddEditRecipe(isEdit: true, recipe: widget.recipe),
+        ),
+      );
+      updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
+    }
+
     handleMenuSeleciton(String value) async {
       switch (value) {
         case 'edit':
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  AddEditRecipe(isEdit: true, recipe: widget.recipe),
-            ),
-          );
-          updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
+          await editRecipe();
           break;
         case 'delete':
           deleteRecipe();
