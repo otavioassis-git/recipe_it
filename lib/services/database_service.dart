@@ -76,9 +76,9 @@ class DatabaseService {
     await db.insert(_recipesTable, recipe.toMap());
   }
 
-  Future<void> updateRecipe(Recipe recipe) async {
+  Future<int> updateRecipe(Recipe recipe) async {
     final Database db = await database;
-    await db.update(
+    return await db.update(
       _recipesTable,
       recipe.toMap(),
       where: '$_recipesId = ?',
@@ -132,7 +132,17 @@ class DatabaseService {
     return categories.map((e) => Category.fromMap(e)).toList();
   }
 
-  void deleteCategory(int id) async {
+  Future<int> updateCategory(Category category) async {
+    final Database db = await database;
+    return await db.update(
+      _categoriesTable,
+      category.toMap(),
+      where: '$_categoriesId = ?',
+      whereArgs: [category.id],
+    );
+  }
+
+  Future<int> deleteCategory(int id) async {
     final Database db = await database;
     await db.update(
       _recipesTable,
@@ -140,7 +150,7 @@ class DatabaseService {
       where: '$_recipesCategoryId = ?',
       whereArgs: [id],
     );
-    await db.delete(
+    return await db.delete(
       _categoriesTable,
       where: '$_categoriesId = ?',
       whereArgs: [id],
