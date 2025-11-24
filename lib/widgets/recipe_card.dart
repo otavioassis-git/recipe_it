@@ -5,6 +5,7 @@ import 'package:recipe_it/models/recipe_model.dart';
 import 'package:recipe_it/pages/add_recipe/add_edit_recipe.dart';
 import 'package:recipe_it/pages/recipe_details/recipe_details.dart';
 import 'package:recipe_it/services/database_service.dart';
+import 'package:recipe_it/widgets/dialogs/delete_recipe.dart';
 
 class RecipeCard extends StatefulWidget {
   const RecipeCard({super.key, required this.recipe});
@@ -22,69 +23,16 @@ class _RecipeCardState extends State<RecipeCard> {
     final theme = Theme.of(context);
     final databaseService = DatabaseService.instance;
 
-    deleteRecipe() {
-      showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 16,
-              children: [
-                Text(
-                  text.confirm_deletion_title,
-                  style: theme.textTheme.headlineSmall,
-                ),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: text
-                            .delition_confirmation(text.recipe.toLowerCase())
-                            .split("typeName")[0],
-                      ),
-                      TextSpan(
-                        text: widget.recipe.name,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
-                        text: text
-                            .delition_confirmation(text.recipe.toLowerCase())
-                            .split("typeName")[1],
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(text.close),
-                    ),
-                    SizedBox(width: 8),
-                    FilledButton(
-                      onPressed: () {
-                        databaseService
-                            .deleteRecipe(widget.recipe.id!)
-                            .then(
-                              (_) => updateRecipesListNotifier.value =
-                                  !updateRecipesListNotifier.value,
-                            );
-                        Navigator.pop(context);
-                      },
-                      child: Text(text.delete),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+    deleteRecipe() async {
+      final bool? deleteRecipe = await showDeleteRecipeDialog(
+        context,
+        widget.recipe.name,
       );
+
+      if (deleteRecipe == true) {
+        await databaseService.deleteRecipe(widget.recipe.id!);
+        updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
+      }
     }
 
     editRecipe() async {

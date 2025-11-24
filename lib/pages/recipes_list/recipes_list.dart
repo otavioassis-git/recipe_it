@@ -52,10 +52,7 @@ class _RecipesListState extends State<RecipesList> {
         await databaseService.updateCategory(
           Category(id: category.id, name: newCategoryName),
         );
-
-        setState(() {
-          updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
-        });
+        updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
       }
     }
 
@@ -67,10 +64,7 @@ class _RecipesListState extends State<RecipesList> {
 
       if (deleteCategory == true) {
         await databaseService.deleteCategory(category.id!);
-
-        setState(() {
-          updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
-        });
+        updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
       }
     }
 
