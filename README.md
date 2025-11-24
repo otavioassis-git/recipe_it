@@ -10,7 +10,7 @@ This app was built from the ground up using Flutter, focusing on a clean UI, smo
 
 ## ✨ Key Features
 
-- Save Recipes: Maintain a list of your Recipes in a organized environment.
+- Save Recipes: Manage a list of your Recipes in a organized environment.
 - Search & Filter: Easily find specific recipes by name or category.
 - Favorites: Save your favorite recipes for quick access later.
 - Recipe Details: View detailed instructions, ingredient lists, and cooking times.
