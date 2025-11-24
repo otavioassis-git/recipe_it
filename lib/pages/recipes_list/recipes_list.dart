@@ -75,9 +75,10 @@ class _RecipesListState extends State<RecipesList> {
     }
 
     handleCategoryMenuSeleciton(String value) {
-      final type = value.split('-')[0];
-      final categoryId = int.parse(value.split('-')[1]);
-      final categoryName = value.split('-')[2];
+      final valueSplit = value.split('-');
+      final type = valueSplit[0];
+      final categoryId = int.parse(valueSplit[1]);
+      final categoryName = valueSplit[2];
       final category = Category(id: categoryId, name: categoryName);
 
       switch (type) {
