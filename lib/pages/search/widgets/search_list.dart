@@ -39,9 +39,12 @@ class _SearchListState extends State<SearchList> {
                 return SingleChildScrollView(
                   child: Column(
                     spacing: 8,
-                    children: recipes.map((recipe) {
-                      return RecipeCard(recipe: recipe);
-                    }).toList(),
+                    children: [
+                      ...recipes.map((recipe) {
+                        return RecipeCard(recipe: recipe);
+                      }),
+                      SizedBox(height: 80),
+                    ],
                   ),
                 );
               } else if (snapshot.hasData && snapshot.data!.isEmpty) {

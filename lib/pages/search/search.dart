@@ -30,52 +30,54 @@ class _SearchState extends State<Search> {
 
     return Scaffold(
       appBar: AppBar(),
-      body: Stack(
-        children: [
-          SearchList(searchText: searchController.text),
-          Positioned(
-            bottom: 16.0,
-            left: 16.0,
-            right: 16.0,
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.inversePrimary,
-                    blurRadius: 8.0,
-                    spreadRadius: 2.0,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(32.0),
-                color: Colors.grey[200],
-              ),
-              child: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  hintText: text.search,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  filled: true,
-                  fillColor: theme.colorScheme.surface,
-                  suffixIcon: searchController.text.isNotEmpty
-                      ? GestureDetector(
-                          child: Icon(Icons.clear),
-                          onTap: () {
-                            searchController.clear();
-                            setState(() {});
-                          },
-                        )
-                      : null,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SearchList(searchText: searchController.text),
+            Positioned(
+              bottom: 16.0,
+              left: 16.0,
+              right: 16.0,
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.colorScheme.inversePrimary,
+                      blurRadius: 8.0,
+                      spreadRadius: 2.0,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(32.0),
+                  color: Colors.grey[200],
                 ),
-                autofocus: true,
-                onChanged: (value) {
-                  setState(() {});
-                },
+                child: TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    hintText: text.search,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                    filled: true,
+                    fillColor: theme.colorScheme.surface,
+                    suffixIcon: searchController.text.isNotEmpty
+                        ? GestureDetector(
+                            child: Icon(Icons.clear),
+                            onTap: () {
+                              searchController.clear();
+                              setState(() {});
+                            },
+                          )
+                        : null,
+                  ),
+                  autofocus: true,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

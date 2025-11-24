@@ -153,7 +153,7 @@ class _RecipesListState extends State<RecipesList> {
                 children: [
                   ...uncategorizedRecipes,
                   ...categorizedRecipes,
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 80),
                 ],
               ),
             );
