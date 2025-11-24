@@ -40,6 +40,7 @@ class _SearchListState extends State<SearchList> {
                   child: Column(
                     spacing: 8,
                     children: [
+                      SizedBox(height: 48),
                       ...recipes.map((recipe) {
                         return RecipeCard(recipe: recipe);
                       }),

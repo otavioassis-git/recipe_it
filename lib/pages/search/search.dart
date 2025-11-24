@@ -29,11 +29,24 @@ class _SearchState extends State<Search> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
         child: Stack(
           children: [
             SearchList(searchText: searchController.text),
+            Positioned(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(8.0),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  size: 24,
+                  color: theme.textTheme.bodyLarge!.color,
+                ),
+              ),
+            ),
             Positioned(
               bottom: 16.0,
               left: 16.0,
