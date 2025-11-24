@@ -142,7 +142,7 @@ class DatabaseService {
     );
   }
 
-  void deleteCategory(int id) async {
+  Future<int> deleteCategory(int id) async {
     final Database db = await database;
     await db.update(
       _recipesTable,
@@ -150,7 +150,7 @@ class DatabaseService {
       where: '$_recipesCategoryId = ?',
       whereArgs: [id],
     );
-    await db.delete(
+    return await db.delete(
       _categoriesTable,
       where: '$_categoriesId = ?',
       whereArgs: [id],

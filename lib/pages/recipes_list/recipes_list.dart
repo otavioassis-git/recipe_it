@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_it/data/notifiers.dart';
-import 'package:recipe_it/dialogs/add_edit_category.dart';
+import 'package:recipe_it/widgets/dialogs/add_edit_category.dart';
 import 'package:recipe_it/l10n/app_localizations.dart';
 import 'package:recipe_it/models/category_model.dart';
 import 'package:recipe_it/models/category_recipe_model.dart';
 import 'package:recipe_it/pages/recipes_list/widgets/padded_recipe_card.dart';
 import 'package:recipe_it/services/database_service.dart';
+import 'package:recipe_it/widgets/dialogs/delete_category.dart';
 
 class RecipesList extends StatefulWidget {
   const RecipesList({super.key, required this.isOnlyFavorites});
@@ -58,17 +59,33 @@ class _RecipesListState extends State<RecipesList> {
       }
     }
 
+    void deleteCategory(Category category) async {
+      final bool? deleteCategory = await showDeleteCategoryDialog(
+        context,
+        category.name,
+      );
+
+      if (deleteCategory == true) {
+        await databaseService.deleteCategory(category.id!);
+
+        setState(() {
+          updateRecipesListNotifier.value = !updateRecipesListNotifier.value;
+        });
+      }
+    }
+
     handleCategoryMenuSeleciton(String value) {
       final type = value.split('-')[0];
       final categoryId = int.parse(value.split('-')[1]);
       final categoryName = value.split('-')[2];
+      final category = Category(id: categoryId, name: categoryName);
 
       switch (type) {
         case 'edit':
-          editCategory(Category(id: categoryId, name: categoryName));
+          editCategory(category);
           break;
         case 'delete':
-          print('delete-$categoryId');
+          deleteCategory(category);
           break;
       }
     }
